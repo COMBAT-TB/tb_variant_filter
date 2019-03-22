@@ -16,7 +16,7 @@ from dataclasses import dataclass
 from functools import wraps
 
 
-@dataclass
+@dataclass(eq=True, frozen=True)
 class Location(object):
     locus: str
     start: int
@@ -41,16 +41,6 @@ class Location(object):
             end=self.end,
             strand=self.strand,
         )
-
-    def __eq__(self, other):
-        if isinstance(other, Location):
-            return (
-                self.locus == other.locus
-                and self.start == other.start
-                and self.end == other.end
-                and self.strand == other.strand
-            )
-        return False
 
 
 class DocInherit(object):

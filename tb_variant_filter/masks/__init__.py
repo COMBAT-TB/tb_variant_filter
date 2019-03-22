@@ -12,3 +12,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+from .mtbseq import MTBseqRegions
+from .pe_ppe import PE_PPE_Regions
+from .tbprofiler import TBProfilerRegions
+from .uvp import UVPRegions
+
+__all__ = ['MTBseqRegions', 'PE_PPE_Regions', 'TBProfilerRegions', 'UVPRegions']
