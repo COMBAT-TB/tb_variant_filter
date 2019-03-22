@@ -18,7 +18,9 @@ class RegionList(ABC):
     regions = []
 
     def __init__(self):
-        """RegionList - a list of regions to mask out"""
+        """RegionList - a list of regions to mask out
+        :rtype: RegionList
+        """
         pass
 
     @classmethod
@@ -29,7 +31,7 @@ class RegionList(ABC):
             data = json.load(input_file)
             self.url = data["url"]
             self.name = data["name"]
-            self.regions = [ Location.from_dict(l) for l in data["regions"] ]
+            self.regions = [Location.from_dict(l) for l in data["regions"]]
             self.description = data["description"]
             self.project_url = data["project_url"]
         return self
@@ -101,7 +103,8 @@ class RegionList(ABC):
             [
                 (k, getattr(self, k))
                 for k in self.__class__.__dict__.keys()
-                if not k.startswith("_") and not type(getattr(self, k)) == types.FunctionType
+                if not k.startswith("_")
+                and not type(getattr(self, k)) == types.FunctionType
             ]
         )
         self_to_dict["regions"] = [l.to_dict() for l in self.regions]

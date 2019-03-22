@@ -46,4 +46,4 @@ class MTBseqRegions(RegionList):
                                  (~mtbseq_df['Antibiotic'].str.contains('phylo'))]['Gene Name'].drop_duplicates()
             mtbseq_ids = pd.DataFrame(pd.concat((gene_ids, rrna_ids)), columns=['id'])
             graph = Graph(uri=bolt_url)
-            self.regions = RegionList.locus_list_to_locations(graph, mtbseq_ids, 'locus')
+            self.regions = RegionList.locus_list_to_locations(graph, mtbseq_ids, 'id')
