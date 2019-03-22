@@ -16,7 +16,7 @@ jobs:
       - run:
           command: |
             conda config --add channels conda-forge
-            conda config --add bioconda
+            conda config --add channels bioconda
             conda install --file conda_requirements.txt
 
       - save_cache:
