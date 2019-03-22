@@ -10,6 +10,8 @@ from ..region_list import RegionList
 class MTBseqRegions(RegionList):
     url = "https://raw.githubusercontent.com/ngs-fzb/MTBseq_source/master/var/res/MTB_Resistance_Mediating.txt"
     name = "MTBseq"
+    description = 'MTBseq antibiotic resistance genes'
+    project_url = 'https://github.com/ngs-fzb/MTBseq_source'
     regions = [
         Location(locus="Rv0005", start=5240, end=7267, strand=1),
         Location(locus="Rv0006", start=7302, end=9818, strand=1),
@@ -44,4 +46,4 @@ class MTBseqRegions(RegionList):
                                  (~mtbseq_df['Antibiotic'].str.contains('phylo'))]['Gene Name'].drop_duplicates()
             mtbseq_ids = pd.DataFrame(pd.concat((gene_ids, rrna_ids)), columns=['id'])
             graph = Graph(uri=bolt_url)
-            self.regions = RegionList.locus_list_to_locations(graph, mtbseq_df, 'locus')
+            self.regions = RegionList.locus_list_to_locations(graph, mtbseq_ids, 'locus')

@@ -11,6 +11,8 @@ from ..region_list import RegionList
 class PE_PPE_Regions(RegionList):
     url = "https://onlinelibrary.wiley.com/doi/full/10.1111/mmi.12981"
     name = "PE_PPE"
+    description = 'PE/PPE genes'
+    project_url = url  # URL of the Fishbein et al paper
     regions = [
         Location(locus="Rv0096", start=105324, end=106715, strand=1),
         Location(locus="Rv0109", start=131382, end=132872, strand=1),
@@ -183,7 +185,7 @@ class PE_PPE_Regions(RegionList):
     ]
 
     @doc_inherit
-    def load_from_web_and_db(self, bolt_url):
+    def load_from_web_and_db(self, bolt_url: str):
         response = requests.get(self.url)
         if response.status_code == 200:
             tables = pd.read_html(StringIO(response.text))

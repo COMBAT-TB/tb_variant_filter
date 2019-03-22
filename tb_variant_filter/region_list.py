@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import json
+import types
 
 import pandas as pd
 from py2neo import Graph, NodeMatcher
@@ -10,6 +11,10 @@ from . import Location
 class RegionList(ABC):
     url = ""
     name = ""
+    description = ""
+    project_url = ""
+    # region list is in GFF3 style 1 based, fully closed coordinates
+    # like in the first example here: http://genome.ucsc.edu/blog/the-ucsc-genome-browser-coordinate-counting-systems/
     regions = []
 
     def __init__(self):
@@ -20,20 +25,29 @@ class RegionList(ABC):
     def load_from_json(cls, filename):
         """load region list from json"""
         self = cls()
-        data = json.load(open(filename), object_hook=Location.from_dict)
-        self.url = data["url"]
-        self.name = data["name"]
-        self.regions = data["regions"]
+        with open(filename) as input_file:
+            data = json.load(input_file)
+            self.url = data["url"]
+            self.name = data["name"]
+            self.regions = [ Location.from_dict(l) for l in data["regions"] ]
+            self.description = data["description"]
+            self.project_url = data["project_url"]
         return self
 
     def save_to_json(self, filename):
         """save object contents to filename"""
-        json.dump(
-            self.regions,
-            open(filename, "w"),
-            indent=4,
-            default=RegionList.encode_location,
-        )
+        with open(filename, "w") as output_file:
+            json.dump(self.to_dict(), output_file, indent=4)
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return (
+                self.name == other.name
+                and self.url == other.url
+                and self.regions == other.regions
+                and self.description == other.description
+                and self.project_url == other.project_url
+            )
 
     @classmethod
     def locus_list_to_locations(
@@ -79,18 +93,22 @@ class RegionList(ABC):
             )
         return locations
 
-    @classmethod
-    def encode_location(cls, location: Location):
-        return dict(
-            locus=location.locus,
-            start=location.start,
-            end=location.end,
-            strand=location.strand,
+    def to_dict(self):
+        # this picks up all class attributes that
+        # don't start with _ (like _ hidden attributes and __ builtin attributes
+        # and aren't functions (i.e. methods)
+        self_to_dict = dict(
+            [
+                (k, getattr(self, k))
+                for k in self.__class__.__dict__.keys()
+                if not k.startswith("_") and not type(getattr(self, k)) == types.FunctionType
+            ]
         )
+        self_to_dict["regions"] = [l.to_dict() for l in self.regions]
+        return self_to_dict
 
     @abstractmethod
     def load_from_web_and_db(self, bolt_url: str):
         """load region list from class url and COMBAT TB eXplorer DB
         :param str bolt_url: bolt URL to connect to COMBAT TB eXplorer DB"""
         pass
-

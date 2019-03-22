@@ -7,9 +7,11 @@ import requests
 from ..region_list import RegionList
 
 
-class TBprofilerRegions(RegionList):
+class TBProfilerRegions(RegionList):
     url = "https://raw.githubusercontent.com/jodyphelan/TBProfiler/master/db/tbdb.bed"
     name = "TBProfiler"
+    description = 'TBProfiler resistance genes'
+    project_url = 'https://github.com/jodyphelan/TBProfiler'
     regions = [
         Location(locus="Rv0005", start=5240, end=7267, strand=1),
         Location(locus="Rv0006", start=7302, end=9818, strand=1),

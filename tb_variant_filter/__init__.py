@@ -20,6 +20,24 @@ class Location(object):
         )
         return self
 
+    def to_dict(self):
+        return dict(
+            locus=self.locus,
+            start=self.start,
+            end=self.end,
+            strand=self.strand,
+        )
+
+    def __eq__(self, other):
+        if isinstance(other, Location):
+            return (
+                self.locus == other.locus
+                and self.start == other.start
+                and self.end == other.end
+                and self.strand == other.strand
+            )
+        return False
+
 
 class DocInherit(object):
     """
