@@ -1,7 +1,6 @@
-import os
-
 from tb_variant_filter.masks.pe_ppe import PE_PPE_Regions
 from .utils import skip_if_no_bolt, get_bolt_url
+
 
 def test_pe_ppe_region_count():
     pe_ppe = PE_PPE_Regions()

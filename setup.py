@@ -31,17 +31,18 @@ setup(
         'intervaltree>=3.0.2',
         'lxml>=4.3.2',
         'pandas>=0.24.2',
-        'pyvcf>=0.6.8',
-        'requests>=2.21.0'
+        'vcfpy>=0.12.0',
+        'requests>=2.21.0',
         'py2neo>=4.2.0',
-        'pytest>=4.3.1'
+        'pytest>=4.3.1',
+        'urllib3>=1.24.1'
     ],
     extras_require={
-        'test': ['pytest>=4.3.1',],
+        'test': ['pytest>=4.3.1'],
     },
     entry_points={
         'console_scripts': [
-            'tb_variant_report=tb_variant_filter.cli:main',
-        ],
+            'tb_variant_filter = tb_variant_filter.cli:main',
+        ]
     }
 )

@@ -24,8 +24,8 @@ from ..region_list import RegionList
 class UVPRegions(RegionList):
     url = "https://raw.githubusercontent.com/CPTR-ReSeqTB/UVP/master/bin/excluded_loci.txt"
     name = "UVP"
-    description = 'UVP excluded loci list'
-    project_url = 'https://github.com/CPTR-ReSeqTB/UVP'
+    description = "UVP excluded loci list"
+    project_url = "https://github.com/CPTR-ReSeqTB/UVP"
     regions = [
         Location(locus="Rv0031", start=33582, end=33794, strand=1),
         Location(locus="Rv0094c", start=103710, end=104663, strand=-1),
@@ -253,13 +253,19 @@ class UVPRegions(RegionList):
     def load_from_web_and_db(self, bolt_url: str):
         response = requests.get(self.url)
         if response.status_code == 200:
-            uvp_df = pd.read_csv(StringIO(response.text), delimiter='\t')
-            uvp_df_loci_df = uvp_df[~uvp_df.astype(str)['Comment'].str.contains('family protein')
-                                    & ~uvp_df['Comment'].isna()]
+            uvp_df = pd.read_csv(StringIO(response.text), delimiter="\t")
+            uvp_df_loci_df = uvp_df[
+                ~uvp_df.astype(str)["Comment"].str.contains("family protein")
+                & ~uvp_df["Comment"].isna()  # noqa: W503
+            ]
 
             graph = Graph(uri=bolt_url)
-            self.regions = RegionList.locus_list_to_locations(graph, uvp_df_loci_df, 'locus tag')
+            self.regions = RegionList.locus_list_to_locations(
+                graph, uvp_df_loci_df, "locus tag"
+            )
 
             # add the intergenic regions
-            for i, row in uvp_df[uvp_df['Comment'].isna()].iterrows():
-                self.regions.append(Location(row['locus tag'], row['chromStart'], row['chromEnd'], 1))
+            for i, row in uvp_df[uvp_df["Comment"].isna()].iterrows():
+                self.regions.append(
+                    Location(row["locus tag"], row["chromStart"], row["chromEnd"], 1)
+                )

@@ -1,7 +1,7 @@
-import os
 from tempfile import NamedTemporaryFile
 
 from tb_variant_filter.masks.pe_ppe import PE_PPE_Regions
+
 
 def test_region_load_save():
     pe_ppe = PE_PPE_Regions()

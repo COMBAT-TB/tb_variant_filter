@@ -24,8 +24,8 @@ from ..region_list import RegionList
 class MTBseqRegions(RegionList):
     url = "https://raw.githubusercontent.com/ngs-fzb/MTBseq_source/master/var/res/MTB_Resistance_Mediating.txt"
     name = "MTBseq"
-    description = 'MTBseq antibiotic resistance genes'
-    project_url = 'https://github.com/ngs-fzb/MTBseq_source'
+    description = "MTBseq antibiotic resistance genes"
+    project_url = "https://github.com/ngs-fzb/MTBseq_source"
     regions = [
         Location(locus="Rv0005", start=5240, end=7267, strand=1),
         Location(locus="Rv0006", start=7302, end=9818, strand=1),
@@ -53,11 +53,15 @@ class MTBseqRegions(RegionList):
     def load_from_web_and_db(self, bolt_url: str):
         response = requests.get(self.url)
         if response.status_code == 200:
-            mtbseq_df = pd.read_csv(StringIO(response.text), delimiter='\t')
-            gene_ids = mtbseq_df[(mtbseq_df['Region'] == 'coding') &
-                                 (~mtbseq_df['Antibiotic'].str.contains('phylo'))]['Gene ID'].drop_duplicates()
-            rrna_ids = mtbseq_df[(mtbseq_df['Region'] == 'ribosomal') &
-                                 (~mtbseq_df['Antibiotic'].str.contains('phylo'))]['Gene Name'].drop_duplicates()
-            mtbseq_ids = pd.DataFrame(pd.concat((gene_ids, rrna_ids)), columns=['id'])
+            mtbseq_df = pd.read_csv(StringIO(response.text), delimiter="\t")
+            gene_ids = mtbseq_df[
+                (mtbseq_df["Region"] == "coding")
+                & (~mtbseq_df["Antibiotic"].str.contains("phylo"))  # noqa: W503
+            ]["Gene ID"].drop_duplicates()
+            rrna_ids = mtbseq_df[
+                (mtbseq_df["Region"] == "ribosomal")
+                & (~mtbseq_df["Antibiotic"].str.contains("phylo"))  # noqa: W503
+            ]["Gene Name"].drop_duplicates()
+            mtbseq_ids = pd.DataFrame(pd.concat((gene_ids, rrna_ids)), columns=["id"])
             graph = Graph(uri=bolt_url)
-            self.regions = RegionList.locus_list_to_locations(graph, mtbseq_ids, 'id')
+            self.regions = RegionList.locus_list_to_locations(graph, mtbseq_ids, "id")

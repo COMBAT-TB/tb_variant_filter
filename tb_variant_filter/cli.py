@@ -14,41 +14,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import argparse
 import sys
-from typing import List, Any, Union
-from tb_variant_filter.masks import *
-
-REGIONS = {
-    "mtbseq": MTBseqRegions(),
-    "pe_ppe": PE_PPE_Regions(),
-    "tbprofiler": TBProfilerRegions(),
-    "uvp": UVPRegions(),
-}
-
-
-class RegionArgParser(argparse.Action):
-    def __call__(
-        self,
-        parser: argparse.ArgumentParser,
-        namespace: argparse.Namespace,
-        values: List[str],
-        option_string: str,
-    ):
-        region_names = set(values.strip().split(","))
-        for region_name in region_names:
-            if region_name not in REGIONS:
-                # this is an ugly error but I don't know a cleaner way to do this
-                raise sys.exit(
-                    f"{region_name} is an unknown region name, should be one of {list(REGIONS.keys())}"
-                )
-        attr = option_string.lstrip('-')
-        if hasattr(namespace, attr) and getattr(namespace, attr):
-            region_names.update(getattr(namespace, attr))
-        setattr(namespace, attr, list(region_names))
+from .filters import get_filters
 
 
 def main():
     parser = argparse.ArgumentParser(description="Filter H37Rv SNVs")
-    parser.add_argument("--region_filter", action=RegionArgParser)
     parser.add_argument(
         "input_file",
         type=argparse.FileType(),
@@ -61,6 +31,10 @@ def main():
         default=sys.stdout,
         help="Output file (VCF format)",
     )
+
+    for filter_class in get_filters():
+        filter_class.customize_parser(parser)
+
     args = parser.parse_args()
     print(args.region_filter)
 

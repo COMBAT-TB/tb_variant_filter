@@ -58,11 +58,11 @@ class RegionList(ABC):
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             return (
-                self.name == other.name
-                and self.url == other.url
-                and self.regions == other.regions
-                and self.description == other.description
-                and self.project_url == other.project_url
+                self.name == other.name  # noqa: W503
+                and self.url == other.url  # noqa: W503
+                and self.regions == other.regions  # noqa: W503
+                and self.description == other.description  # noqa: W503
+                and self.project_url == other.project_url  # noqa: W503
             )
 
     @classmethod
@@ -118,7 +118,7 @@ class RegionList(ABC):
                 (k, getattr(self, k))
                 for k in self.__class__.__dict__.keys()
                 if not k.startswith("_")
-                and not type(getattr(self, k)) == types.FunctionType
+                and not type(getattr(self, k)) == types.FunctionType  # noqa: W503
             ]
         )
         self_to_dict["regions"] = [l.to_dict() for l in self.regions]
