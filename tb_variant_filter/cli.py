@@ -14,7 +14,29 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import argparse
 import sys
-from .filters import get_filters
+
+import vcfpy
+
+from .filters import get_filters, IntersectFilter
+
+
+def filter_vcf_file(args: argparse.ArgumentParser):
+    """filter_vcf_file: taking parameters from args, apply filters to VCF file, generating filtered VCF file"""
+    variant_filters = []
+    for filter_class in get_filters():
+        variant_filters.append(filter_class(args))
+
+    variant_filter = IntersectFilter(variant_filters)
+
+    reader = vcfpy.Reader(args.input_file)
+    writer = vcfpy.Writer(args.output_file, header=reader.header)
+    masked_records = 0
+    for record in reader:
+        if variant_filter(record):
+            masked_records += 1
+        else:
+            writer.write_record(record)
+    return masked_records
 
 
 def main():
@@ -36,7 +58,9 @@ def main():
         filter_class.customize_parser(parser)
 
     args = parser.parse_args()
-    print(args.region_filter)
+
+    masked_records = filter_vcf_file(args)
+    print(masked_records)
 
 
 if __name__ == "__main__":

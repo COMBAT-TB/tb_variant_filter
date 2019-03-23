@@ -15,6 +15,20 @@ class Filter(object):
         pass
 
 
+class IntersectFilter(Filter):
+    def __init__(self, filters: List[Filter]):
+        self.filters = filters
+
+    def customize_parser(cls, parser: argparse.ArgumentParser) -> None:
+        pass
+
+    def __call__(self, record: record) -> bool:
+        for filter in self.filters:
+            if filter(record):
+                return True
+        return False
+
+
 def get_filters() -> List[Filter]:
     return [RegionFilter]
 
@@ -22,4 +36,4 @@ def get_filters() -> List[Filter]:
 from .region_filter import RegionFilter  # noqa: E402
 
 
-__all__ = ["Filter", "RegionFilter"]
+__all__ = [variant_filter.__name__ for variant_filter in get_filters()] + ["IntersectFilter", "get_filters"]

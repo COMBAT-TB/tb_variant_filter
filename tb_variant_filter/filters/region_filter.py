@@ -43,7 +43,7 @@ class RegionFilter(Filter):
 
     @classmethod
     def customize_parser(cls, parser: argparse.ArgumentParser):
-        parser.add_argument("--region_filter", action=RegionArgParser)
+        parser.add_argument("--region_filter", action=RegionArgParser, default=[])
 
     def __init__(self, args: argparse.Namespace) -> 'RegionFilter':
         super().__init__()
@@ -55,9 +55,15 @@ class RegionFilter(Filter):
                 self.intervaltree.add(Interval(location.start - 1, location.end))
 
     def __call__(self, record: record) -> bool:
+        # this logic added so that it easier to add debug code
+        mask = False
         if record.affected_end < record.affected_start:
             # this is a insert - 0 length feature
-            return self.intervaltree.overlaps_point(record.affected_start)
+            mask = self.intervaltree.overlaps_point(record.affected_start)
         else:
             # SNV or MNV (del) - size 1 and above
-            return self.intervaltree.overlaps(record.affected_start, record.affected_end)
+            mask = self.intervaltree.overlaps(record.affected_start, record.affected_end)
+        if mask:
+            if record.affected_start < record.affected_end:
+                print("FILTER:", record)
+        return mask
