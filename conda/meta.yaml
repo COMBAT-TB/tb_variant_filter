@@ -1,0 +1,60 @@
+{% set name = "tb_variant_filter" %}
+{% set version = "0.0.1" %}
+{% set sha256 = "5537edf2692f0c489e13e8bf1af893def6b644b7f9195ad7417c798815edeada" %}
+{% set author = "pvanheus" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/{{ author }}/{{ name }}/archive/{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  noarch: python
+  number: 0
+  skip: True  # [py<37]
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
+
+requirements:
+  build:
+    # if your project compiles code (such as a C extension) then add the required compilers as separate entries here.
+    # compilers are named 'c', 'cxx' and 'fortran'.
+    - {{ compiler('c') }}
+  host:
+    - python
+    - pip
+  run:
+    - python >=3.7
+    - intervaltree
+    - lxml
+    - pandas
+    - vcfpy
+    - requests
+    - py2neo >=4.2.0
+
+test:
+  # Some package might need a `test/commands` key to check CLI.
+  # List all the packages/modules that `run_test.py` imports.
+  requires:
+    - pytest
+  imports:
+    - tb_variant_filter
+    - tb_variant_filter.cli
+    - tb_variant_filter.filters
+    - tb_variant_filter.masks
+  source_files:
+    - test/*
+  commands:
+    - python -mpytest
+
+about:
+  home: http://github.com/{{ author }}/{{ name }}
+  license: MIT
+  license_family: GPL-3.0
+  license_file: COPYING
+  summary: 'VCF variant filter optimised for filter M. tuberculosis H37Rv variants'
+  description: |
+    tb_variant_filter filters variants in VCF filters, with a focus on the kinds of filtering
+    done with variants found relative to M. tuberculosis H37Rv
