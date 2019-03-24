@@ -43,6 +43,7 @@ from .region_filter import RegionFilter  # noqa: E402
 from .close_to_indel_filter import CloseToIndelFilter  # noqa: E402
 from .alt_percentage_filter import AltPercentageDepthFilter  # noqa: E402
 
+
 def get_filters() -> List[Filter]:
     return [RegionFilter, CloseToIndelFilter, AltPercentageDepthFilter]
 

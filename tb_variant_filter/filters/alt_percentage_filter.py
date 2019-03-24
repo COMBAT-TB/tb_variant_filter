@@ -4,9 +4,12 @@ import vcfpy
 
 from . import Filter
 
+
 class AltPercentageDepthFilter(Filter):
     min_percentage = 0
+
     def __init__(self, args: argparse.Namespace) -> 'AltPercentageDepthFilter':
+        super().__init__(args)
         if hasattr(args, 'min_percentage_alt'):
             self.min_percentage = args.min_percentage_alt
 
