@@ -1,3 +1,4 @@
+# these filter modules are very closely tied to the command line interface (tb_variant_filter.cli)
 from abc import abstractmethod
 import argparse
 from typing import List

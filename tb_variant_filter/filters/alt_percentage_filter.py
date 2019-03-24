@@ -21,7 +21,7 @@ class AltPercentageDepthFilter(Filter):
     def __repr__(self) -> str:
         name = f'{self.__class__.__name__}'
         if self.min_percentage:
-            name += f' (minimum {self.min_percentage:.2f}% alt allele'
+            name += f' (minimum {self.min_percentage:.2f}% alt allele)'
         else:
             name += ' (inactive)'
         return name
