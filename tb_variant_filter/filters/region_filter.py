@@ -32,7 +32,8 @@ class RegionArgParser(argparse.Action):
                 raise sys.exit(
                     f"{region_name} is an unknown region name, should be one of {list(REGIONS.keys())}"
                 )
-        attr = option_string.lstrip('-')
+        # if user supplies short option (e.g. '-R') default to 'region_filter" name
+        attr = option_string.lstrip('-') if len(option_string) > 2 else 'region_filter'
         if hasattr(namespace, attr) and getattr(namespace, attr):
             region_names.update(getattr(namespace, attr))
         setattr(namespace, attr, list(region_names))
@@ -40,19 +41,30 @@ class RegionArgParser(argparse.Action):
 
 class RegionFilter(Filter):
     intervaltree = None
+    region_names = []
 
     @classmethod
     def customize_parser(cls, parser: argparse.ArgumentParser):
-        parser.add_argument("--region_filter", action=RegionArgParser, default=[])
+        parser.add_argument("--region_filter", "-R", action=RegionArgParser, default=[])
 
     def __init__(self, args: argparse.Namespace) -> 'RegionFilter':
-        super().__init__()
+        super().__init__(args)
         self.intervaltree = IntervalTree()
-        for name in args.region_filter:
-            regions = REGIONS[name].regions
-            for location in regions:
-                # convert to 0-based, half open coordinates
-                self.intervaltree.add(Interval(location.start - 1, location.end))
+        if hasattr(args, 'region_filter'):
+            self.region_names = args.region_filter
+            for name in args.region_filter:
+                regions = REGIONS[name].regions
+                for location in regions:
+                    # convert to 0-based, half open coordinates
+                    self.intervaltree.add(Interval(location.start - 1, location.end))
+
+    def __repr__(self):
+        name = f"{self.__class__.__name__}"
+        if self.region_names:
+            name += ' on ' + ', '.join(self.region_names)
+        else:
+            name += ' (inactive)'
+        return name
 
     def __call__(self, record: record) -> bool:
         # this logic added so that it easier to add debug code
@@ -63,7 +75,4 @@ class RegionFilter(Filter):
         else:
             # SNV or MNV (del) - size 1 and above
             mask = self.intervaltree.overlaps(record.affected_start, record.affected_end)
-        if mask:
-            if record.affected_start < record.affected_end:
-                print("FILTER:", record)
         return mask

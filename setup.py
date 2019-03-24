@@ -27,16 +27,16 @@ setup(
     keywords='Salmonella enterica Heidelberg Enteritidis SNP kmer subtyping Aho-Corasick',
     classifiers=classifiers,
     package_dir={'tb_variant_filter': 'tb_variant_filter'},
-    install_requires=[
-        'intervaltree>=3.0.2',
-        'lxml>=4.3.2',
-        'pandas>=0.24.2',
-        'vcfpy>=0.12.0',
-        'requests>=2.21.0',
-        'py2neo>=4.2.0',
-        'pytest>=4.3.1',
-        'urllib3>=1.24.1'
-    ],
+    # install_requires=[
+    #     'intervaltree>=3.0.2',
+    #     'lxml>=4.3.2',
+    #     'pandas>=0.24.2',
+    #     'vcfpy>=0.12.0',
+    #     'requests>=2.21.0',
+    #     'py2neo>=4.2.0',
+    #     'pytest>=4.3.1',
+    #     'urllib3>=1.24.1'
+    # ],
     extras_require={
         'test': ['pytest>=4.3.1'],
     },

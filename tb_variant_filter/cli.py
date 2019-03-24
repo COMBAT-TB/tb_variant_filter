@@ -17,7 +17,7 @@ import sys
 
 import vcfpy
 
-from .filters import get_filters, IntersectFilter
+from .filters import get_filters, UnionFilter
 
 
 def filter_vcf_file(args: argparse.ArgumentParser):
@@ -26,7 +26,8 @@ def filter_vcf_file(args: argparse.ArgumentParser):
     for filter_class in get_filters():
         variant_filters.append(filter_class(args))
 
-    variant_filter = IntersectFilter(variant_filters)
+    variant_filter = UnionFilter(variant_filters)
+    print(variant_filter, file=sys.stderr)
 
     reader = vcfpy.Reader(args.input_file)
     writer = vcfpy.Writer(args.output_file, header=reader.header)
@@ -60,7 +61,7 @@ def main():
     args = parser.parse_args()
 
     masked_records = filter_vcf_file(args)
-    print(masked_records)
+    print("masked:", masked_records, file=sys.stderr)
 
 
 if __name__ == "__main__":
