@@ -12,9 +12,14 @@ It currently has 3 main modes:
     2. `tbprofiler`: [TBProfiler](http://tbdr.lshtm.ac.uk/) list of antibiotic resistant genes
     3. `mtbseq`: [MTBseq](https://github.com/ngs-fzb/MTBseq_source) list of antibiotic resistant genes
     4. `uvp`: [UVP](https://github.com/CPTR-ReSeqTB/UVP) list of repetitive loci in M. tuberculosis genome
-2. Filter by proximity to indels. Masks out variants within a certain distance (by default 5 bases) of an insertion or deletion site.
-3. Filter by percentage of alternate allele bases. Mask out variants with less than a minimum percentage (by default 90%) alternative alleles.
+2. Filter by proximity to indels. Masks out variants within a certain distance (by default 5 bases) of an insertion or
+ deletion site.
+3. Filter by percentage of alternate allele bases. Mask out variants with less than a minimum percentage 
+(by default 90%) alternative alleles.
 
+Filtering by read depth and (SAM/BAM) mapping quality were omitted because these filters are performed by the upstream 
+workflow we (SANBI) currently use. The first of these might be added in the future.
+ 
 When used together the effects of the filters are added (i.e. a variant is masked out if it is masked by any of the filters).
 
 #### Installation
