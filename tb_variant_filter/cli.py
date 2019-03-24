@@ -41,7 +41,9 @@ def filter_vcf_file(args: argparse.ArgumentParser):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Filter H37Rv SNVs")
+    parser = argparse.ArgumentParser(
+        description="Filter variants from a VCF file (relative to M. tuberculosis H37Rv)"
+    )
     parser.add_argument(
         "input_file",
         type=argparse.FileType(),

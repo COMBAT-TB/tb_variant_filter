@@ -1,0 +1,18 @@
+<tool id="tb_variant_filter" name="TB Variant Filter" version="0.0.1+galaxy0">
+    <description>M. tuberculosis H37Rv VCF filter</description>
+    <requirements>
+        <requirement type="package" version="0.0.1">tb_variant_filter</requirement>
+    </requirements>
+    <command detect_errors="exit_code"><![CDATA[
+        tb_variant_filter "$input1" "$output1"
+    ]]></command>
+    <inputs>
+        <param type="data" name="input1" format="vcf" />
+    </inputs>
+    <outputs>
+        <data name="output1" format="vcf" />
+    </outputs>
+    <help><![CDATA[
+        TODO: Fill in help.
+    ]]></help>
+</tool>
