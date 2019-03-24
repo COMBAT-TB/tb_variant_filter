@@ -41,10 +41,10 @@ class UnionFilter(Filter):
 
 from .region_filter import RegionFilter  # noqa: E402
 from .close_to_indel_filter import CloseToIndelFilter  # noqa: E402
-
+from .alt_percentage_filter import AltPercentageDepthFilter  # noqa: E402
 
 def get_filters() -> List[Filter]:
-    return [RegionFilter, CloseToIndelFilter]
+    return [RegionFilter, CloseToIndelFilter, AltPercentageDepthFilter]
 
 
 __all__ = [variant_filter.__name__ for variant_filter in get_filters()] + [
