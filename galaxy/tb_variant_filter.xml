@@ -38,13 +38,14 @@
                truevalue="--close_to_indel_filter" falsevalue=""/>
         <param argument="--indel_window_size" type="integer" value="5" label="Window to mask around indels"/>
         <param type="boolean" argument="--min_percentage_alt_filter" truevalue="--min_percentage_alt_filter"
-               falsevalue="" checked="true" Label="Enable minimum alternate allele percentage filter"/>
+               falsevalue="" checked="true" label="Enable minimum alternate allele percentage filter"/>
         <param argument="--min_percentage_alt" type="float" value="90"
                label="Minimum alternate allele percentage to accept"/>
         <param type="boolean" argument="--min_depth_filter" truevalue="--min_depth_filter"
                falsevalue="" label="Enable minimum read depth filter"/>
         <param argument="--min_depth" type="integer" value="30" label="Minimum read depth (coverage)"/>
-        <param argument="--snv_only_filter" type="boolean" label="Enable SNV-only filter"/>
+        <param argument="--snv_only_filter" type="boolean" truevalue="--snv_only_filter"
+               falsevalue="" label="Enable SNV-only filter"/>
     </inputs>
     <outputs>
         <data name="output1" format="vcf"/>
@@ -81,7 +82,7 @@
             <output name="output1" file="test_output3.vcf" ftype="vcf" />
         </test>
         <test>
-            <param name="input1" value="test_input1.vcf" ftype="vcf" />
+            <param name="input1" value="test_input2.vcf" ftype="vcf" />
             <param name="enable_region_filter" value="false" />
             <param name="close_to_indel_filter" value="false" />
             <param name="min_percentage_alt_filter" value="true" />
@@ -89,6 +90,25 @@
             <param name="min_depth_filter" value="false" />
             <param name="snv_only_filter" value="false" />
             <output name="output1" file="test_output4.vcf" ftype="vcf" />
+        </test>
+        <test>
+            <param name="input1" value="test_input1.vcf" ftype="vcf" />
+            <param name="enable_region_filter" value="false" />
+            <param name="close_to_indel_filter" value="false" />
+            <param name="min_percentage_alt_filter" value="false" />
+            <param name="min_depth_filter" value="true" />
+            <param name="min_depth" value="30" />
+            <param name="snv_only_filter" value="false" />
+            <output name="output1" file="test_output5.vcf" ftype="vcf" />
+        </test>
+        <test>
+            <param name="input1" value="test_input1.vcf" ftype="vcf" />
+            <param name="enable_region_filter" value="false" />
+            <param name="close_to_indel_filter" value="false" />
+            <param name="min_percentage_alt_filter" value="false" />
+            <param name="min_depth_filter" value="false" />
+            <param name="snv_only_filter" value="true" />
+            <output name="output1" file="test_output6.vcf" ftype="vcf" />
         </test>
     </tests>
     <help><![CDATA[
