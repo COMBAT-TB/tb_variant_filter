@@ -24,7 +24,7 @@ setup(
     author='Peter van Heusden',
     author_email='pvh@sanbi.ac.za',
     description='This tool offers multiple options for filtering variants (in VCF files, relative to M. tuberculosis H37Rv).',
-    keywords='Salmonella enterica Heidelberg Enteritidis SNP kmer subtyping Aho-Corasick',
+    keywords='Mycobacterium tuberculosis bioinformatics',
     classifiers=classifiers,
     package_dir={'tb_variant_filter': 'tb_variant_filter'},
     # install_requires=[
