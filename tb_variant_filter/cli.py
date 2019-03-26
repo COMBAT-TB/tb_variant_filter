@@ -33,10 +33,12 @@ def filter_vcf_file(args: argparse.ArgumentParser):
     writer = vcfpy.Writer(args.output_file, header=reader.header)
     masked_records = 0
     for record in reader:
-        if variant_filter(record):
-            masked_records += 1
-        else:
+        record = variant_filter(record)
+        if record:
+            # write the (possibly transformed) Record
             writer.write_record(record)
+        else:
+            masked_records += 1
     return masked_records
 
 

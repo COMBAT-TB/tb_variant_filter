@@ -13,8 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import argparse
+from typing import Union
 
-import vcfpy
+from vcfpy import Record, Reader
 from intervaltree import IntervalTree
 
 from . import Filter
@@ -28,7 +29,7 @@ class CloseToIndelFilter(Filter):
         super().__init__(args)
         self.intervaltree = IntervalTree()
         if hasattr(args, 'close_to_indel_filter') and args.close_to_indel_filter:
-            reader = vcfpy.Reader(args.input_file)
+            reader = Reader(args.input_file)
             dist = args.indel_window_size
             self.dist = dist
             for record in reader:
@@ -65,9 +66,9 @@ class CloseToIndelFilter(Filter):
             help="Window around indel to mask out (mask this number of bases upstream/downstream from the indel. Requires -I option to selected)",
         )
 
-    def __call__(self, record: vcfpy.Record) -> bool:
-        mask = False
+    def __call__(self, record: Record) -> Union[Record, None]:
+        retain = True
         if record.is_snv():
             # we are masking SNVs, only the affected_start is relevant since this is a size 1 feature
-            mask = self.intervaltree.overlaps_point(record.affected_start)
-        return mask
+            retain = not self.intervaltree.overlaps_point(record.affected_start)
+        return record if retain else None

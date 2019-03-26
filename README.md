@@ -16,9 +16,12 @@ It currently has 3 main modes:
  deletion site.
 3. Filter by percentage of alternate allele bases. Mask out variants with less than a minimum percentage 
 (by default 90%) alternative alleles.
+4. Filter by depth of reads at a variant site. Masks out variants with less than a minimum depth of coverage 
+(default 30) at the site
+5. Filter all non-SNV variants. Masks out variants that are not single nucleotide variants.
 
-Filtering by read depth and (SAM/BAM) mapping quality were omitted because these filters are performed by the upstream 
-workflow we (SANBI) currently use. The first of these might be added in the future.
+Filtering by (SAM/BAM) mapping quality was omitted because these filters are performed by the upstream 
+workflow we (SANBI) currently use.
  
 When used together the effects of the filters are added (i.e. a variant is masked out if it is masked by any of the filters).
 
@@ -37,6 +40,8 @@ usage: tb_variant_filter [-h] [--region_filter REGION_FILTER]
                          [--indel_window_size INDEL_WINDOW_SIZE]
                          [--min_percentage_alt_filter]
                          [--min_percentage_alt MIN_PERCENTAGE_ALT]
+                         [--min_depth_filter] [--min_depth MIN_DEPTH]
+                         [--snv_only_filter]
                          input_file [output_file]
 
 Filter variants from a VCF file (relative to M. tuberculosis H37Rv)
@@ -57,8 +62,15 @@ optional arguments:
                         option to selected)
   --min_percentage_alt_filter, -P
                         Mask out variants with less than a given percentage
-                        variant allele at this side
+                        variant allele at this site
   --min_percentage_alt MIN_PERCENTAGE_ALT
                         Variants with less than this percentage variants at a
                         site will be masked out
+  --min_depth_filter, -D
+                        Mask out variants with less than a given depth of
+                        reads
+  --min_depth MIN_DEPTH
+                        Variants at sites with less than this depth of reads
+                        will be masked out
+  --snv_only_filter     Mask out variants that are not SNVs
 ```

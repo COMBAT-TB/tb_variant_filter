@@ -12,10 +12,10 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-from typing import List
+from typing import List, Union
 
 from intervaltree import Interval, IntervalTree
-from vcfpy import record
+from vcfpy import Record
 
 import argparse
 import sys
@@ -80,13 +80,16 @@ class RegionFilter(Filter):
             name += ' (inactive)'
         return name
 
-    def __call__(self, record: record) -> bool:
+    def __call__(self, record: Record) -> Union[Record, None]:
         # this logic added so that it easier to add debug code
-        mask = False
+        retain = True
         if record.affected_end < record.affected_start:
             # this is a insert - 0 length feature
-            mask = self.intervaltree.overlaps_point(record.affected_start)
+            retain = not self.intervaltree.overlaps_point(record.affected_start)
         else:
             # SNV or MNV (del) - size 1 and above
-            mask = self.intervaltree.overlaps(record.affected_start, record.affected_end)
-        return mask
+            retain = not self.intervaltree.overlaps(record.affected_start, record.affected_end)
+        if retain:
+            return record
+        else:
+            return None

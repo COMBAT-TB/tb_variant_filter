@@ -13,15 +13,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-# TODO:
 # these filter modules are very closely tied to the command line interface (tb_variant_filter.cli),
-# to the extent that they do not stand alone well, which is something that should be changed
-# in a future refactor
+# in effect they simply extend the command line interface, allowing for the cli.py
+# to remain simpler at the cost of making this code less general
 from abc import abstractmethod
 import argparse
-from typing import List
+from typing import List, Union, Type
 
-from vcfpy import record
+from vcfpy import Record
 
 
 class Filter(object):
@@ -38,7 +37,8 @@ class Filter(object):
         pass
 
     @abstractmethod
-    def __call__(self, record: record):
+    def __call__(self, record: Record) -> Union[Record, None]:
+        """Returns None if the record fails the Filter test, else the (possibly transformed) Record"""
         pass
 
 
@@ -54,17 +54,24 @@ class UnionFilter(Filter):
     def customize_parser(cls, parser: argparse.ArgumentParser) -> None:
         pass
 
-    def __call__(self, record: record) -> bool:
-        return any([filter(record) for filter in self.filters])
+    def __call__(self, record: Record) -> Union[Record, None]:
+        for filter in self.filters:
+            record = filter(record)
+            if not record:
+                # don't continue the chain
+                return None
+        return record  # return the record, perhaps after some transformation
 
 
 from .region_filter import RegionFilter  # noqa: E402
 from .close_to_indel_filter import CloseToIndelFilter  # noqa: E402
 from .alt_percentage_filter import AltPercentageDepthFilter  # noqa: E402
+from .min_depth_filter import MinDepthFilter  # noqa: 402
+from .snv_only_filter import SnvOnly  # noqa: 402
 
-
-def get_filters() -> List[Filter]:
-    return [RegionFilter, CloseToIndelFilter, AltPercentageDepthFilter]
+def get_filters() -> List[Type[Filter]]:
+    return [RegionFilter, CloseToIndelFilter, AltPercentageDepthFilter,
+            MinDepthFilter, SnvOnly]
 
 
 __all__ = [variant_filter.__name__ for variant_filter in get_filters()] + [
