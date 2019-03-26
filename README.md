@@ -5,7 +5,7 @@
 This tool offers multiple options for filtering variants (in
 VCF files, relative to M. tuberculosis H37Rv).
 
-It currently has 3 main modes:
+It currently has 5 main modes:
 
 1. Filter by region. Mask out variants in certain regions. Region lists available as:
     1. `pe_ppe`: PE/PPE genes from [Fishbein et al 2015](https://onlinelibrary.wiley.com/doi/full/10.1111/mmi.12981)
