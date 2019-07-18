@@ -1,0 +1,35 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##fileDate=20190716
+##source=freeBayes v1.3.1-dirty
+##reference=reference/ref.fa
+##contig=<ID=NC_000962,length=4411532>
+##phasing=none
+##commandline="freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f reference/ref.fa snps.bam --region NC_000962:0-299008"
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total read depth at the locus">
+##INFO=<ID=RO,Number=1,Type=Integer,Description="Count of full observations of the reference haplotype.">
+##INFO=<ID=AO,Number=A,Type=Integer,Description="Count of full observations of this alternate haplotype.">
+##INFO=<ID=QR,Number=1,Type=Integer,Description="Reference allele quality sum in phred">
+##INFO=<ID=QA,Number=A,Type=Integer,Description="Alternate allele quality sum in phred">
+##INFO=<ID=AB,Number=A,Type=Float,Description="Allele balance at heterozygous sites: a number between 0 and 1 representing the ratio of reads showing the reference allele to all reads, considering only reads from individuals called as heterozygous">
+##INFO=<ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=GL,Number=G,Type=Float,Description="Genotype Likelihood, log10-scaled likelihoods of the data given the called genotype for each possible genotype generated from the reference and alternate alleles given the sample ploidy">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Read Depth">
+##FORMAT=<ID=RO,Number=1,Type=Integer,Description="Reference allele observation count">
+##FORMAT=<ID=QR,Number=1,Type=Integer,Description="Sum of quality of the reference observations">
+##FORMAT=<ID=AO,Number=A,Type=Integer,Description="Alternate allele observation count">
+##FORMAT=<ID=QA,Number=A,Type=Integer,Description="Sum of quality of the alternate observations">
+##bcftools_viewVersion=1.9+htslib-1.9
+##bcftools_viewCommand=view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' snps.raw.vcf; Date=Tue Jul 16 15:25:57 2019
+##bcftools_annotateVersion=1.9+htslib-1.9
+##bcftools_annotateCommand=annotate --remove ^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL; Date=Tue Jul 16 15:25:57 2019
+##SnpEffVersion="4.3t (build 2017-11-24 10:18), by Pablo Cingolani"
+##SnpEffCmd="SnpEff  -noStats -no-downstream -no-upstream -no-utr ref snps.filt.vcf "
+##INFO=<ID=ANN,Number=.,Type=String,Description="Functional annotations: 'Allele | Annotation | Annotation_Impact | Gene_Name | Gene_ID | Feature_Type | Feature_ID | Transcript_BioType | Rank | HGVS.c | HGVS.p | cDNA.pos / cDNA.length | CDS.pos / CDS.length | AA.pos / AA.length | Distance | ERRORS / WARNINGS / INFO' ">
+##INFO=<ID=LOF,Number=.,Type=String,Description="Predicted loss of function effects for this variant. Format: 'Gene_Name | Gene_ID | Number_of_transcripts_in_gene | Percent_of_transcripts_affected'">
+##INFO=<ID=NMD,Number=.,Type=String,Description="Predicted nonsense mediated decay effects for this variant. Format: 'Gene_Name | Gene_ID | Number_of_transcripts_in_gene | Percent_of_transcripts_affected'">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	TDR_21_snippy
+NC_000962	488796	.	G	A	1590.2	.	AB=0;AO=49;DP=50;QA=1799;QR=0;RO=0;TYPE=snp;ANN=A|synonymous_variant|LOW|Rv0405|GENE_Rv0405|transcript|TRANSCRIPT_Rv0405|protein_coding|1/1|c.3066G>A|p.Val1022Val|3066/4209|3066/4209|1022/1402||	GT:DP:RO:QR:AO:QA:GL	1/1:50:0:0:49:1799:-162.008,-14.7505,0
+NC_000962	489935	.	G	C	1787.97	.	AB=0;AO=55;DP=56;QA=2023;QR=0;RO=0;TYPE=snp;ANN=C|missense_variant|MODERATE|Rv0405|GENE_Rv0405|transcript|TRANSCRIPT_Rv0405|protein_coding|1/1|c.4205G>C|p.Arg1402Pro|4205/4209|4205/4209|1402/1402||,C|synonymous_variant|LOW|Rv0406c|GENE_Rv0406c|transcript|TRANSCRIPT_Rv0406c|protein_coding|1/1|c.771C>G|p.Thr257Thr|771/819|771/819|257/272||	GT:DP:RO:QR:AO:QA:GL	1/1:56:0:0:55:2023:-182.124,-16.5567,0
+NC_000962	493934	.	T	C	1978.07	.	AB=0;AO=61;DP=61;QA=2249;QR=0;RO=0;TYPE=snp;ANN=C|synonymous_variant|LOW|Rv0409|GENE_Rv0409|transcript|TRANSCRIPT_Rv0409|protein_coding|1/1|c.84T>C|p.Arg28Arg|84/1158|84/1158|28/385||	GT:DP:RO:QR:AO:QA:GL	1/1:61:0:0:61:2249:-202.602,-18.3628,0
