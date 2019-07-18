@@ -77,7 +77,8 @@ class AltPercentageDepthFilter(Filter):
         for key in record.INFO:
             if type(record.INFO[key]) == list:
                 new_INFO[key] = [
-                    el for i, el in enumerate(record.INFO[key]) if retain[i]
+                    # retain all ANN records and the only those other records that correspond to alts that we retain
+                    el for i, el in enumerate(record.INFO[key]) if key == 'ANN' or retain[i]
                 ]
             else:
                 new_INFO[key] = record.INFO[key]
