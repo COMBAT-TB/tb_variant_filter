@@ -50,7 +50,7 @@ class MinDepthFilter(Filter):
     def __repr__(self) -> str:
         name = f"{self.__class__.__name__}"
         if self.min_depth:
-            name += f" (minimum {self.min_depth}% depth)"
+            name += f" (minimum {self.min_depth} depth)"
         else:
             name += " (inactive)"
         return name
