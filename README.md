@@ -74,3 +74,23 @@ optional arguments:
                         will be masked out
   --snv_only_filter     Mask out variants that are not SNVs
 ```
+
+To export a region (from the list of possible region masks) in BED format, use the `tb_region_list_to_bed` command:
+
+
+```
+usage: tb_region_list_to_bed [-h] [--chromosome_name CHROMOSOME_NAME]
+                             {mtbseq,pe_ppe,tbprofiler,uvp} [output_file]
+
+Output region filter in BED format
+
+positional arguments:
+  {mtbseq,pe_ppe,tbprofiler,uvp}
+                        Name of region list
+  output_file           File to write output to
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --chromosome_name CHROMOSOME_NAME
+                        Chromosome name to use in BED
+```

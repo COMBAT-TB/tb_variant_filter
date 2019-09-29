@@ -17,7 +17,7 @@ Operating System :: POSIX :: Linux
 
 setup(
     name='tb_variant_filter',
-    version='0.1.3',
+    version='0.2.0',
     packages=find_packages(exclude=['tests']),
     url='https://github.com/pvanheus/tb_variant_filter',
     license='GPLv3',
@@ -43,6 +43,7 @@ setup(
     entry_points={
         'console_scripts': [
             'tb_variant_filter = tb_variant_filter.cli:main',
+            'tb_region_list_to_bed = tb_variant_filter.regions_to_bed:main'
         ]
     }
 )
