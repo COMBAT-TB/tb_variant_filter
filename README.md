@@ -1,5 +1,7 @@
 ### tb_variant_filter
 
+![tb variant filter build status](https://github.com/COMBAT-TB/tb_variant_filter/actions/workflows/tb_variant_filter.yml/badge.svg)
+
 This tool offers multiple options for filtering variants (in VCF files, relative to M. tuberculosis H37Rv coordinates).
 
 It currently has 5 main modes:
