@@ -1,9 +1,7 @@
 name: tb_variant_filter
 
-on:
-  push:
-    tags:
-      - '*'
+on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
