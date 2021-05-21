@@ -1,4 +1,4 @@
-# Copyright (C) 2019  Peter van Heusden <pvh@sanbi.ac.za>
+# Copyright (C) 2021  Peter van Heusden <pvh@sanbi.ac.za>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -12,9 +12,10 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+from .farhat_rlc import FarhatLab_RLC_Regions
 from .mtbseq import MTBseqRegions
 from .pe_ppe import PE_PPE_Regions
 from .tbprofiler import TBProfilerRegions
 from .uvp import UVPRegions
 
-__all__ = ['MTBseqRegions', 'PE_PPE_Regions', 'TBProfilerRegions', 'UVPRegions']
+__all__ = ['FarhatLab_RLC_Regions', 'MTBseqRegions', 'PE_PPE_Regions', 'TBProfilerRegions', 'UVPRegions']

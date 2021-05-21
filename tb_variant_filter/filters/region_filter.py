@@ -1,4 +1,4 @@
-# Copyright (C) 2019  Peter van Heusden <pvh@sanbi.ac.za>
+# Copyright (C) 2021  Peter van Heusden <pvh@sanbi.ac.za>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,11 +19,12 @@ from vcfpy import Record
 
 import argparse
 import sys
-from tb_variant_filter.masks import MTBseqRegions, PE_PPE_Regions, TBProfilerRegions, UVPRegions
+from tb_variant_filter.masks import FarhatLab_RLC_Regions, MTBseqRegions, PE_PPE_Regions, TBProfilerRegions, UVPRegions
 
 from . import Filter
 
 REGIONS = {
+    "farhat_rlc": FarhatLab_RLC_Regions(),
     "mtbseq": MTBseqRegions(),
     "pe_ppe": PE_PPE_Regions(),
     "tbprofiler": TBProfilerRegions(),

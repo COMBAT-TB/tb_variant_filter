@@ -1,4 +1,4 @@
-# Copyright (C) 2019  Peter van Heusden <pvh@sanbi.ac.za>
+# Copyright (C) 2021  Peter van Heusden <pvh@sanbi.ac.za>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,11 +15,28 @@
 from abc import ABC, abstractmethod
 import json
 import types
+from typing import TextIO
 
 import pandas as pd
 from py2neo import Graph, NodeMatcher
 
 from . import Location
+
+def bed_to_regions(input_file: TextIO) -> list[Location]:
+    regions = []
+    count = 1
+    for line in input_file:
+        fields = line.strip().split('\t')
+        assert len(fields) >= 3, f"expect BED file to have at least 3 fields, got: {line}"
+        start = int(fields[1])
+        end = int(fields[2])
+        if len(fields) > 3:
+            name = fields[3]
+        else:
+            name = f'region{count}'
+        count += 1
+        regions.append(Location(locus=name, start=start, end=end, strand=1))
+    return regions
 
 
 class RegionList(ABC):

@@ -2,12 +2,12 @@
 
 [![CircleCI](https://circleci.com/gh/COMBAT-TB/tb_variant_filter.svg?style=svg)](https://circleci.com/gh/COMBAT-TB/tb_variant_filter)
 
-This tool offers multiple options for filtering variants (in
-VCF files, relative to M. tuberculosis H37Rv).
+This tool offers multiple options for filtering variants (in VCF files, relative to M. tuberculosis H37Rv coordinates).
 
 It currently has 5 main modes:
 
 1. Filter by region. Mask out variants in certain regions. Region lists available as:
+    1. `farhat_rlc`: Refined Low Confidence regions from [Marin et al](https://www.biorxiv.org/content/10.1101/2021.04.08.438862v1.full)
     1. `pe_ppe`: PE/PPE genes from [Fishbein et al 2015](https://onlinelibrary.wiley.com/doi/full/10.1111/mmi.12981)
     2. `tbprofiler`: [TBProfiler](http://tbdr.lshtm.ac.uk/) list of antibiotic resistant genes
     3. `mtbseq`: [MTBseq](https://github.com/ngs-fzb/MTBseq_source) list of antibiotic resistant genes
@@ -80,7 +80,7 @@ To export a region (from the list of possible region masks) in BED format, use t
 
 ```
 usage: tb_region_list_to_bed [-h] [--chromosome_name CHROMOSOME_NAME]
-                             {mtbseq,pe_ppe,tbprofiler,uvp} [output_file]
+                             {farhat_rlc, mtbseq,pe_ppe,tbprofiler,uvp} [output_file]
 
 Output region filter in BED format
 

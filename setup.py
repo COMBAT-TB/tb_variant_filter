@@ -17,7 +17,7 @@ Operating System :: POSIX :: Linux
 
 setup(
     name='tb_variant_filter',
-    version='0.2.0',
+    version='0.3.0',
     packages=find_packages(exclude=['tests']),
     url='https://github.com/pvanheus/tb_variant_filter',
     license='GPLv3',
