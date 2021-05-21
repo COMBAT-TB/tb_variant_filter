@@ -24,8 +24,8 @@ from ..region_list import RegionList
 class TBProfilerRegions(RegionList):
     url = "https://raw.githubusercontent.com/jodyphelan/TBProfiler/master/db/tbdb.bed"
     name = "TBProfiler"
-    description = 'TBProfiler resistance genes'
-    project_url = 'https://github.com/jodyphelan/TBProfiler'
+    description = "TBProfiler resistance genes"
+    project_url = "https://github.com/jodyphelan/TBProfiler"
     regions = [
         Location(locus="Rv0005", start=5240, end=7267, strand=1),
         Location(locus="Rv0006", start=7302, end=9818, strand=1),
@@ -66,7 +66,10 @@ class TBProfilerRegions(RegionList):
     def load_from_web_and_db(self, bolt_url: str):
         response = requests.get(self.url)
         if response.status_code == 200:
-            data = pd.read_csv(StringIO(response.text), delimiter='\t',
-                               names=["Chromosome", "start", "end", "locus", "name", "resistance"])
+            data = pd.read_csv(
+                StringIO(response.text),
+                delimiter="\t",
+                names=["Chromosome", "start", "end", "locus", "name", "resistance"],
+            )
             graph = Graph(uri=bolt_url)
-            self.regions = RegionList.locus_list_to_locations(graph, data, 'locus')
+            self.regions = RegionList.locus_list_to_locations(graph, data, "locus")

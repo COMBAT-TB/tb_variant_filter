@@ -19,7 +19,13 @@ from vcfpy import Record
 
 import argparse
 import sys
-from tb_variant_filter.masks import FarhatLab_RLC_Regions, MTBseqRegions, PE_PPE_Regions, TBProfilerRegions, UVPRegions
+from tb_variant_filter.masks import (
+    FarhatLab_RLC_Regions,
+    MTBseqRegions,
+    PE_PPE_Regions,
+    TBProfilerRegions,
+    UVPRegions,
+)
 
 from . import Filter
 
@@ -48,7 +54,7 @@ class RegionArgParser(argparse.Action):
                     f"{region_name} is an unknown region name, should be one of {list(REGIONS.keys())}"
                 )
         # if user supplies short option (e.g. '-R') default to 'region_filter" name
-        attr = option_string.lstrip('-') if len(option_string) > 2 else 'region_filter'
+        attr = option_string.lstrip("-") if len(option_string) > 2 else "region_filter"
         if hasattr(namespace, attr) and getattr(namespace, attr):
             region_names.update(getattr(namespace, attr))
         setattr(namespace, attr, list(region_names))
@@ -62,10 +68,10 @@ class RegionFilter(Filter):
     def customize_parser(cls, parser: argparse.ArgumentParser):
         parser.add_argument("--region_filter", "-R", action=RegionArgParser, default=[])
 
-    def __init__(self, args: argparse.Namespace) -> 'RegionFilter':
+    def __init__(self, args: argparse.Namespace) -> "RegionFilter":
         super().__init__(args)
         self.intervaltree = IntervalTree()
-        if hasattr(args, 'region_filter'):
+        if hasattr(args, "region_filter"):
             self.region_names = args.region_filter
             for name in args.region_filter:
                 regions = REGIONS[name].regions
@@ -76,9 +82,9 @@ class RegionFilter(Filter):
     def __repr__(self):
         name = f"{self.__class__.__name__}"
         if self.region_names:
-            name += ' on ' + ', '.join(self.region_names)
+            name += " on " + ", ".join(self.region_names)
         else:
-            name += ' (inactive)'
+            name += " (inactive)"
         return name
 
     def __call__(self, record: Record) -> Union[Record, None]:
@@ -89,7 +95,9 @@ class RegionFilter(Filter):
             retain = not self.intervaltree.overlaps_point(record.affected_start)
         else:
             # SNV or MNV (del) - size 1 and above
-            retain = not self.intervaltree.overlaps(record.affected_start, record.affected_end)
+            retain = not self.intervaltree.overlaps(
+                record.affected_start, record.affected_end
+            )
         if retain:
             return record
         else:

@@ -13,20 +13,22 @@ Topic :: Scientific/Engineering
 Topic :: Scientific/Engineering :: Bio-Informatics
 Programming Language :: Python :: 3.7
 Operating System :: POSIX :: Linux
-""".strip().split('\n')
+""".strip().split(
+    "\n"
+)
 
 setup(
-    name='tb_variant_filter',
-    version='0.3.0',
-    packages=find_packages(exclude=['tests']),
-    url='https://github.com/pvanheus/tb_variant_filter',
-    license='GPLv3',
-    author='Peter van Heusden',
-    author_email='pvh@sanbi.ac.za',
-    description='This tool offers multiple options for filtering variants (in VCF files, relative to M. tuberculosis H37Rv).',
-    keywords='Mycobacterium tuberculosis bioinformatics',
+    name="tb_variant_filter",
+    version="0.3.0",
+    packages=find_packages(exclude=["tests"]),
+    url="https://github.com/pvanheus/tb_variant_filter",
+    license="GPLv3",
+    author="Peter van Heusden",
+    author_email="pvh@sanbi.ac.za",
+    description="This tool offers multiple options for filtering variants (in VCF files, relative to M. tuberculosis H37Rv).",
+    keywords="Mycobacterium tuberculosis bioinformatics",
     classifiers=classifiers,
-    package_dir={'tb_variant_filter': 'tb_variant_filter'},
+    package_dir={"tb_variant_filter": "tb_variant_filter"},
     # install_requires=[
     #     'intervaltree>=3.0.2',
     #     'lxml>=4.3.2',
@@ -37,13 +39,11 @@ setup(
     #     'pytest>=4.3.1',
     #     'urllib3>=1.24.1'
     # ],
-    extras_require={
-        'test': ['pytest>=4.3.1'],
-    },
+    extras_require={"test": ["pytest>=4.3.1"]},
     entry_points={
-        'console_scripts': [
-            'tb_variant_filter = tb_variant_filter.cli:main',
-            'tb_region_list_to_bed = tb_variant_filter.regions_to_bed:main'
+        "console_scripts": [
+            "tb_variant_filter = tb_variant_filter.cli:main",
+            "tb_region_list_to_bed = tb_variant_filter.regions_to_bed:main",
         ]
-    }
+    },
 )

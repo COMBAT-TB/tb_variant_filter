@@ -25,10 +25,10 @@ class CloseToIndelFilter(Filter):
     intervaltree = None
     dist = 0
 
-    def __init__(self, args: argparse.Namespace) -> 'CloseToIndelFilter':
+    def __init__(self, args: argparse.Namespace) -> "CloseToIndelFilter":
         super().__init__(args)
         self.intervaltree = IntervalTree()
-        if hasattr(args, 'close_to_indel_filter') and args.close_to_indel_filter:
+        if hasattr(args, "close_to_indel_filter") and args.close_to_indel_filter:
             reader = Reader(args.input_file)
             dist = args.indel_window_size
             self.dist = dist
@@ -36,18 +36,24 @@ class CloseToIndelFilter(Filter):
                 if not record.is_snv():
                     if record.affected_end < record.affected_start:
                         # this is an insertion, we only have the start site
-                        self.intervaltree.addi(begin=record.affected_start - dist, end=record.affected_start + dist)
+                        self.intervaltree.addi(
+                            begin=record.affected_start - dist,
+                            end=record.affected_start + dist,
+                        )
                     else:
-                        self.intervaltree.addi(begin=record.affected_start - dist, end=record.affected_end + dist)
+                        self.intervaltree.addi(
+                            begin=record.affected_start - dist,
+                            end=record.affected_end + dist,
+                        )
             args.input_file.seek(0)
 
     def __repr__(self) -> str:
 
-        name = f'{self.__class__.__name__}'
+        name = f"{self.__class__.__name__}"
         if self.dist:
-            name += f' (Window {self.dist})'
+            name += f" (Window {self.dist})"
         else:
-            name += ' (inactive)'
+            name += " (inactive)"
         return name
 
     @classmethod

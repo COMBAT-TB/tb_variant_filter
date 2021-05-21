@@ -18,4 +18,10 @@ from .pe_ppe import PE_PPE_Regions
 from .tbprofiler import TBProfilerRegions
 from .uvp import UVPRegions
 
-__all__ = ['FarhatLab_RLC_Regions', 'MTBseqRegions', 'PE_PPE_Regions', 'TBProfilerRegions', 'UVPRegions']
+__all__ = [
+    "FarhatLab_RLC_Regions",
+    "MTBseqRegions",
+    "PE_PPE_Regions",
+    "TBProfilerRegions",
+    "UVPRegions",
+]

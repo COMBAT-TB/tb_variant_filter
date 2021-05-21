@@ -22,18 +22,21 @@ from py2neo import Graph, NodeMatcher
 
 from . import Location
 
+
 def bed_to_regions(input_file: TextIO) -> list[Location]:
     regions = []
     count = 1
     for line in input_file:
-        fields = line.strip().split('\t')
-        assert len(fields) >= 3, f"expect BED file to have at least 3 fields, got: {line}"
+        fields = line.strip().split("\t")
+        assert (
+            len(fields) >= 3
+        ), f"expect BED file to have at least 3 fields, got: {line}"
         start = int(fields[1])
         end = int(fields[2])
         if len(fields) > 3:
             name = fields[3]
         else:
-            name = f'region{count}'
+            name = f"region{count}"
         count += 1
         regions.append(Location(locus=name, start=start, end=end, strand=1))
     return regions

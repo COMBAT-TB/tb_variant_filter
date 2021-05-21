@@ -69,9 +69,15 @@ from .alt_percentage_filter import AltPercentageDepthFilter  # noqa: E402
 from .min_depth_filter import MinDepthFilter  # noqa: 402
 from .snv_only_filter import SnvOnly  # noqa: 402
 
+
 def get_filters() -> List[Type[Filter]]:
-    return [RegionFilter, CloseToIndelFilter, AltPercentageDepthFilter,
-            MinDepthFilter, SnvOnly]
+    return [
+        RegionFilter,
+        CloseToIndelFilter,
+        AltPercentageDepthFilter,
+        MinDepthFilter,
+        SnvOnly,
+    ]
 
 
 __all__ = [variant_filter.__name__ for variant_filter in get_filters()] + [

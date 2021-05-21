@@ -7,7 +7,9 @@ from .utils import skip_if_no_bolt, get_bolt_url
 def test_uvp_region_count():
     uvp = UVPRegions()
     expected = 220
-    assert len(uvp.regions) == expected, f"expected {expected} regions, got {len(uvp.regions)}"
+    assert (
+        len(uvp.regions) == expected
+    ), f"expected {expected} regions, got {len(uvp.regions)}"
 
 
 def test_first_last_region():

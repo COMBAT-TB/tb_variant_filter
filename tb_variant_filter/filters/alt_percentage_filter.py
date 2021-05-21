@@ -76,12 +76,14 @@ class AltPercentageDepthFilter(Filter):
         new_INFO = OrderedDict()
         # these are produced by snpEff and keys occur once per implicated gene
         # the simplest solution is to copy them all across
-        snpeff_keys = set(['ANN', 'LOF', 'NMD'])        
+        snpeff_keys = set(["ANN", "LOF", "NMD"])
         for key in record.INFO:
             if type(record.INFO[key]) == list:
                 new_INFO[key] = [
                     # retain all ANN records and the only those other records that correspond to alts that we retain
-                    el for i, el in enumerate(record.INFO[key]) if key in snpeff_keys or retain[i]
+                    el
+                    for i, el in enumerate(record.INFO[key])
+                    if key in snpeff_keys or retain[i]
                 ]
             else:
                 new_INFO[key] = record.INFO[key]

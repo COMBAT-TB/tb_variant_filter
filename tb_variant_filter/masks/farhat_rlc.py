@@ -24,7 +24,9 @@ class FarhatLab_RLC_Regions(RegionList):
     url = "https://www.biorxiv.org/content/biorxiv/early/2021/04/11/2021.04.08.438862/DC12/embed/media-12.tsv"
     name = "FarhatLab_RLC"
     description = "Refined Low Confidence regions from Farhat Lab"
-    project_url = "https://www.biorxiv.org/content/10.1101/2021.04.08.438862v1.full"  # URL of the Marin et al preprint
+    project_url = (
+        "https://www.biorxiv.org/content/10.1101/2021.04.08.438862v1.full"
+    )  # URL of the Marin et al preprint
     regions = [
         Location(locus="region1", start=24720, end=24738, strand=1),
         Location(locus="region2", start=39029, end=39030, strand=1),

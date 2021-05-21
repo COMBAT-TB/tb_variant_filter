@@ -22,6 +22,7 @@ def test_region_filter():
     ), f"expected {expected_masked_variants_count} got {masked_variants_count}"
     assert output_file.getvalue() == expected_content
 
+
 def test_farhatlab_rlc_filter():
     test_dir = os.path.dirname(__file__)
     args = Namespace()

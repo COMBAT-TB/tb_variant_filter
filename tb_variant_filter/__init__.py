@@ -36,10 +36,7 @@ class Location(object):
 
     def to_dict(self):
         return dict(
-            locus=self.locus,
-            start=self.start,
-            end=self.end,
-            strand=self.strand,
+            locus=self.locus, start=self.start, end=self.end, strand=self.strand
         )
 
 

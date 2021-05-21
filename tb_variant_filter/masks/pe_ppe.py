@@ -25,7 +25,7 @@ from ..region_list import RegionList
 class PE_PPE_Regions(RegionList):
     url = "https://onlinelibrary.wiley.com/doi/full/10.1111/mmi.12981"
     name = "PE_PPE"
-    description = 'PE/PPE genes'
+    description = "PE/PPE genes"
     project_url = url  # URL of the Fishbein et al paper
     regions = [
         Location(locus="Rv0096", start=105324, end=106715, strand=1),
