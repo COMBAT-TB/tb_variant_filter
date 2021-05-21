@@ -65,7 +65,7 @@ class RegionList(ABC):
             data = json.load(input_file)
             self.url = data["url"]
             self.name = data["name"]
-            self.regions = [Location.from_dict(l) for l in data["regions"]]
+            self.regions = [Location.from_dict(loc) for loc in data["regions"]]
             self.description = data["description"]
             self.project_url = data["project_url"]
         return self
@@ -138,10 +138,10 @@ class RegionList(ABC):
                 (k, getattr(self, k))
                 for k in self.__class__.__dict__.keys()
                 if not k.startswith("_")
-                and not type(getattr(self, k)) == types.FunctionType  # noqa: W503
+                and not isinstance(getattr(self, k), types.FunctionType)
             ]
         )
-        self_to_dict["regions"] = [l.to_dict() for l in self.regions]
+        self_to_dict["regions"] = [loc.to_dict() for loc in self.regions]
         return self_to_dict
 
     @abstractmethod

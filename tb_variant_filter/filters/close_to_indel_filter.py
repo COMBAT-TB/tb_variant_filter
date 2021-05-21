@@ -69,7 +69,7 @@ class CloseToIndelFilter(Filter):
             "--indel_window_size",
             type=int,
             default=5,
-            help="Window around indel to mask out (mask this number of bases upstream/downstream from the indel. Requires -I option to selected)",
+            help="Window around indel to mask out (mask this number of bases upstream/downstream from the indel. Requires -I option to selected)",  # noqa: E501
         )
 
     def __call__(self, record: Record) -> Union[Record, None]:
