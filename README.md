@@ -21,7 +21,7 @@ It currently has 5 main modes:
 5. Filter all non-SNV variants. Masks out variants that are not single nucleotide variants.
 
 Filtering by (SAM/BAM) mapping quality was omitted because these filters are performed by the upstream 
-workflow we (SANBI) currently use.
+workflow we ([SANBI](https://www.sanbi.ac.za)) currently use.
  
 When used together the effects of the filters are added (i.e. a variant is masked out if it is masked by any of the filters).
 
