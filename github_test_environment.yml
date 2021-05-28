@@ -67,6 +67,7 @@ dependencies:
   - libxslt=1.1.33=h15afd5d_2
   - lxml=4.6.3=py39h107f48f_0
   - mccabe=0.6.1=py_1
+  - monotonic=1.5=py_0
   - more-itertools=8.8.0=pyhd8ed1ab_0
   - mypy_extensions=0.4.3=py39hf3d152e_3
   - ncurses=6.2=h58526e2_4
