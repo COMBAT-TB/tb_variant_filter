@@ -15,7 +15,7 @@
 from abc import ABC, abstractmethod
 import json
 import types
-from typing import TextIO
+from typing import TextIO,List
 
 import pandas as pd
 from py2neo import Graph, NodeMatcher
@@ -23,7 +23,7 @@ from py2neo import Graph, NodeMatcher
 from . import Location
 
 
-def bed_to_regions(input_file: TextIO) -> list[Location]:
+def bed_to_regions(input_file: TextIO) -> List[Location]:
     regions = []
     count = 1
     for line in input_file:

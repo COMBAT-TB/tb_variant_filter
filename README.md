@@ -94,3 +94,14 @@ optional arguments:
   --chromosome_name CHROMOSOME_NAME
                         Chromosome name to use in BED
 ```
+
+### Testing and development environment
+
+The repository contains a file, [test_environment.yml](test_environment.yml), for creating a [conda](https://docs.conda.io/en/latest/#)
+environment for testing and development. Tests can be run with `pytest` and `tox`, where `tox` also uses conda
+to create the testing environment.
+
+### Licensing and distribution
+
+This code free software and is licensed under the terms specified in [COPYING](COPYING), i.e under the terms of the
+[GNU General Public License version 3](https://www.gnu.org/licenses/gpl-3.0-standalone.html).
