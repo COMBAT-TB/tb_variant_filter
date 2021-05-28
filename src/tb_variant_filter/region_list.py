@@ -18,7 +18,7 @@ import types
 from typing import TextIO, List
 
 import pandas as pd
-from neo4j import GraphDatabase, Driver
+from neo4j import Driver
 
 from . import Location
 
