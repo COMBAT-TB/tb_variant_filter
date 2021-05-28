@@ -15,7 +15,7 @@
 from .. import Location, doc_inherit
 from io import StringIO
 import pandas as pd
-from py2neo import Graph
+from neo4j import GraphDatabase
 import requests
 
 from ..region_list import RegionList
@@ -80,5 +80,5 @@ class TBProfilerRegions(RegionList):
                 delimiter="\t",
                 names=["Chromosome", "start", "end", "locus", "name", "resistance"],
             )
-            graph = Graph(uri=bolt_url)
+            graph = GraphDatabase.driver(uri=bolt_url)
             self.regions = RegionList.locus_list_to_locations(graph, data, "locus")

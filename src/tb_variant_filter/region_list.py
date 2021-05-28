@@ -18,7 +18,7 @@ import types
 from typing import TextIO, List
 
 import pandas as pd
-from py2neo import Graph, NodeMatcher
+from neo4j import GraphDatabase, Driver
 
 from . import Location
 
@@ -85,49 +85,37 @@ class RegionList(ABC):
                 and self.project_url == other.project_url  # noqa: W503
             )
 
+    @staticmethod
+    def _find_locus_by_name(tx, name):
+        result = tx.run("MATCH (locus) -[:LOCATED_AT]-> (location:Location) "
+                        "WHERE ((locus:Gene or locus:PseudoGene) and locus.uniquename = $name) "
+                        " or (locus:RRna and locus.name = $name) RETURN locus, location", name=name)
+        return result.single()
+
     @classmethod
     def locus_list_to_locations(
-        cls, graph: Graph, locus_df: pd.DataFrame, column_name: str
+        cls, graph: Driver, locus_df: pd.DataFrame, column_name: str
     ):
         """locus_list_to_locations - lookup H37Rv coordinates of a list of gene/pseudogene/rrnas
-        graph - py2neo Graph object
+        graph - neo4j Driver object (from GraphDatabase.driver())
         locus_df - pandas DataFrame with names of loci
         column_name - name of column in locus_df to use for locus name
         """
-        matcher = NodeMatcher(graph)
-        info = []
-        for i, row in locus_df.iterrows():
-            locus = row[column_name]
-            gene_match = matcher.match("Gene", uniquename=locus)
-            pseudogene_match = matcher.match("PseudoGene", uniquename=locus)
-            rrna_match = matcher.match("RRna", name=locus)
-            if gene_match:
-                info.append(gene_match.first())
-            elif pseudogene_match:
-                info.append(pseudogene_match.first())
-            elif rrna_match:
-                info.append(rrna_match.first())
-            else:
-                print("not found", locus)
-        assert len(info) == len(
-            locus_df
-        ), "Failed to find all the loci in question {} vs {}".format(
-            len(locus_df), len(info)
-        )
+        with graph.session() as session:
 
-        locations = []
-        for item in info:
-            location_r = graph.match_one((item,), r_type="LOCATED_AT")
-            location = location_r.end_node
-            locations.append(
-                Location(
-                    locus=item["uniquename"],
-                    start=location["fmin"],
-                    end=location["fmax"],
-                    strand=location["strand"],
+            locations = []
+            for i, row in locus_df.iterrows():
+                locus = row[column_name]
+                result = session.read_transaction(RegionList._find_locus_by_name, locus)
+                locations.append(
+                    Location(
+                        locus=result["locus"]["uniquename"],
+                        start=result["location"]["fmin"],
+                        end=result["location"]["fmax"],
+                        strand=result["location"]["strand"],
+                    )
                 )
-            )
-        return locations
+            return locations
 
     def to_dict(self):
         # this picks up all class attributes that

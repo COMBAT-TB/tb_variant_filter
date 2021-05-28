@@ -15,7 +15,7 @@
 from .. import Location, doc_inherit
 from io import StringIO
 import pandas as pd
-from py2neo import Graph
+from neo4j import GraphDatabase
 import requests
 
 from ..region_list import RegionList
@@ -204,7 +204,7 @@ class PE_PPE_Regions(RegionList):
         if response.status_code == 200:
             tables = pd.read_html(StringIO(response.text))
             pe_ppe_data = tables[0]
-            graph = Graph(uri=bolt_url)
+            graph = GraphDatabase.driver(uri=bolt_url)
             self.regions = RegionList.locus_list_to_locations(
                 graph, pe_ppe_data, "Rv number"
             )

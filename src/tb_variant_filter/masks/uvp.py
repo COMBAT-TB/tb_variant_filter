@@ -15,7 +15,7 @@
 from .. import Location, doc_inherit
 from io import StringIO
 import pandas as pd
-from py2neo import Graph
+from neo4j import GraphDatabase
 import requests
 
 from ..region_list import RegionList
@@ -259,7 +259,7 @@ class UVPRegions(RegionList):
                 & ~uvp_df["Comment"].isna()  # noqa: W503
             ]
 
-            graph = Graph(uri=bolt_url)
+            graph = GraphDatabase.driver(uri=bolt_url)
             self.regions = RegionList.locus_list_to_locations(
                 graph, uvp_df_loci_df, "locus tag"
             )

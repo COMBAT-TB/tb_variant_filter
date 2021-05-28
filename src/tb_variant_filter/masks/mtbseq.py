@@ -15,7 +15,7 @@
 from .. import Location, doc_inherit
 from io import StringIO
 import pandas as pd
-from py2neo import Graph
+from neo4j import GraphDatabase
 import requests
 
 from ..region_list import RegionList
@@ -63,5 +63,5 @@ class MTBseqRegions(RegionList):
                 & (~mtbseq_df["Antibiotic"].str.contains("phylo"))  # noqa: W503
             ]["Gene Name"].drop_duplicates()
             mtbseq_ids = pd.DataFrame(pd.concat((gene_ids, rrna_ids)), columns=["id"])
-            graph = Graph(uri=bolt_url)
+            graph = GraphDatabase.driver(uri=bolt_url)
             self.regions = RegionList.locus_list_to_locations(graph, mtbseq_ids, "id")
