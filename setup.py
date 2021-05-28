@@ -29,7 +29,7 @@ setup(
     keywords="Mycobacterium tuberculosis bioinformatics",
     classifiers=classifiers,
     package_dir={"tb_variant_filter": "tb_variant_filter"},
-     install_requires=[
+    install_requires=[
          'intervaltree',
          'lxml',
          'pandas',
