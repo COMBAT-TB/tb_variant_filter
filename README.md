@@ -101,6 +101,9 @@ The repository contains a file, [test_environment.yml](test_environment.yml), fo
 environment for testing and development. Tests can be run with `pytest` and `tox`, where `tox` also uses conda
 to create the testing environment.
 
+For some tests, locus locations are looked up using the [COMBAT-TB NeoDB](https://combattb.org/combat-tb-neodb/). This requires an
+environment variable, `COMBATTB_BOLT_URL`. If this is not set, tests requiring this lookup are skipped. The default in `tox.ini` uses the [SANBI](https://www.sanbi.ac.za/) hosted NeoDB instance.
+
 ### Licensing and distribution
 
 This code free software and is licensed under the terms specified in [COPYING](COPYING), i.e under the terms of the
