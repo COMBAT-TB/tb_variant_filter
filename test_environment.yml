@@ -13,4 +13,6 @@ dependencies:
     - pandas
     - vcfpy
     - requests
+    - twine >=3.4.1
+    - build
     - py2neo >=4.2.0

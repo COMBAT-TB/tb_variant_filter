@@ -27,7 +27,7 @@ class TBProfilerRegions(RegionList):
     description = "TBProfiler resistance genes"
     project_url = "https://github.com/jodyphelan/TBProfiler"
     regions = [
-Location(locus='Rv0005', start=4998, end=7267, strand=1),
+        Location(locus='Rv0005', start=4998, end=7267, strand=1),
         Location(locus='Rv0006', start=7268, end=9818, strand=1),
         Location(locus='Rv0407', start=490706, end=491785, strand=1),
         Location(locus='Rv0486', start=575301, end=576786, strand=1),

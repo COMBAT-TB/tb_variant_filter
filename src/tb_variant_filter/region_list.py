@@ -15,7 +15,7 @@
 from abc import ABC, abstractmethod
 import json
 import types
-from typing import TextIO,List
+from typing import TextIO, List
 
 import pandas as pd
 from py2neo import Graph, NodeMatcher
