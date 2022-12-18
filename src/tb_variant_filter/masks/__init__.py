@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from .farhat_rlc import FarhatLab_RLC_Regions
+from .farhat_rlc_lowmap import FarhatLab_RLC_LowMap_Regions
 from .mtbseq import MTBseqRegions
 from .pe_ppe import PE_PPE_Regions
 from .tbprofiler import TBProfilerRegions
@@ -20,6 +21,7 @@ from .uvp import UVPRegions
 
 __all__ = [
     "FarhatLab_RLC_Regions",
+    "FarhatLab_RLC_LowMap_Regions",
     "MTBseqRegions",
     "PE_PPE_Regions",
     "TBProfilerRegions",

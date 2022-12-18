@@ -21,12 +21,11 @@ from ..region_list import RegionList, bed_to_regions
 
 # noinspection PyPep8Naming
 class FarhatLab_RLC_Regions(RegionList):
-    url = "https://www.biorxiv.org/content/biorxiv/early/2021/04/11/2021.04.08.438862/DC12/embed/media-12.tsv"
+    url = "https://raw.githubusercontent.com/farhat-lab/mtb-illumina-wgs-evaluation/main/Results/A_Manuscript_AdditionalFiles/AF13_RLC_Regions.H37Rv.bed"
     name = "FarhatLab_RLC"
     description = "Refined Low Confidence regions from Farhat Lab"
-    project_url = (
-        "https://www.biorxiv.org/content/10.1101/2021.04.08.438862v1.full"
-    )  # URL of the Marin et al preprint
+    # these regions are in the AF13_RLC_Regions.H37Rv.bed supplementary file in the publication
+    project_url = "https://doi.org/10.1093/bioinformatics/btac023"
     regions = [
         Location(locus="region1", start=24720, end=24738, strand=1),
         Location(locus="region2", start=39029, end=39030, strand=1),

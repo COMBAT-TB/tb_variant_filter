@@ -16,6 +16,7 @@ from abc import ABC, abstractmethod
 import json
 import types
 from typing import TextIO, List
+import sys
 
 import pandas as pd
 from neo4j import Driver
@@ -47,7 +48,7 @@ class RegionList(ABC):
     name = ""
     description = ""
     project_url = ""
-    # region list is in GFF3 style 1 based, fully closed coordinates
+    # the region list is in GFF3 style 1 based, fully closed coordinates
     # like in the first example here: http://genome.ucsc.edu/blog/the-ucsc-genome-browser-coordinate-counting-systems/
     regions = []
 
@@ -94,7 +95,7 @@ class RegionList(ABC):
 
     @classmethod
     def locus_list_to_locations(
-        cls, graph: Driver, locus_df: pd.DataFrame, column_name: str
+        cls, graph: Driver, locus_df: pd.DataFrame, column_name: str, rrna_column_name: str = None
     ):
         """locus_list_to_locations - lookup H37Rv coordinates of a list of gene/pseudogene/rrnas
         graph - neo4j Driver object (from GraphDatabase.driver())
@@ -106,15 +107,20 @@ class RegionList(ABC):
             locations = []
             for i, row in locus_df.iterrows():
                 locus = row[column_name]
+                if not locus.startswith('Rv') and rrna_column_name is not None:
+                    locus = row[rrna_column_name]
                 result = session.read_transaction(RegionList._find_locus_by_name, locus)
-                locations.append(
-                    Location(
-                        locus=result["locus"]["uniquename"],
-                        start=result["location"]["fmin"],
-                        end=result["location"]["fmax"],
-                        strand=result["location"]["strand"],
+                if result is not None:
+                    locations.append(
+                        Location(
+                            locus=result["locus"]["uniquename"],
+                            start=result["location"]["fmin"],
+                            end=result["location"]["fmax"],
+                            strand=result["location"]["strand"],
+                        )
                     )
-                )
+                else:
+                    print("Failed to look up coordinates for", locus, file=sys.stderr)
             return locations
 
     def to_dict(self):

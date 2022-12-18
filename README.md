@@ -7,7 +7,7 @@ This tool offers multiple options for filtering variants (in VCF files, relative
 It currently has 5 main modes:
 
 1. Filter by region. Mask out variants in certain regions. Region lists available as:
-    1. `farhat_rlc`: Refined Low Confidence regions from [Marin et al](https://www.biorxiv.org/content/10.1101/2021.04.08.438862v1.full)
+    1. `farhat_rlc` and `farhat_rlc_lowmap`:  Refined Low Confidence (RLC) and RLC plus low mappability regions from [Marin et al](https://doi.org/10.1093/bioinformatics/btac023)
     1. `pe_ppe`: PE/PPE genes from [Fishbein et al 2015](https://onlinelibrary.wiley.com/doi/full/10.1111/mmi.12981)
     2. `tbprofiler`: [TBProfiler](http://tbdr.lshtm.ac.uk/) list of antibiotic resistant genes
     3. `mtbseq`: [MTBseq](https://github.com/ngs-fzb/MTBseq_source) list of antibiotic resistant genes
@@ -80,12 +80,12 @@ To export a region (from the list of possible region masks) in BED format, use t
 
 ```
 usage: tb_region_list_to_bed [-h] [--chromosome_name CHROMOSOME_NAME]
-                             {farhat_rlc, mtbseq,pe_ppe,tbprofiler,uvp} [output_file]
+                             {farhat_rlc,farhat_rlc_lowmap,mtbseq,pe_ppe,tbprofiler,uvp} [output_file]
 
 Output region filter in BED format
 
 positional arguments:
-  {mtbseq,pe_ppe,tbprofiler,uvp}
+  {farhat_rlc,farhat_rlc_lowmap,mtbseq,pe_ppe,tbprofiler,uvp}
                         Name of region list
   output_file           File to write output to
 
@@ -98,8 +98,7 @@ optional arguments:
 ### Testing and development environment
 
 The repository contains a file, [test_environment.yml](test_environment.yml), for creating a [conda](https://docs.conda.io/en/latest/#)
-environment for testing and development. Tests can be run with `pytest` and `tox`, where `tox` also uses conda
-to create the testing environment.
+environment for testing and development. Tests can be run with `pytest` and `tox`, where `tox` also uses conda to create the testing environment.
 
 For some tests, locus locations are looked up using the [COMBAT-TB NeoDB](https://combattb.org/combat-tb-neodb/). This requires an
 environment variable, `COMBATTB_BOLT_URL`. If this is not set, tests requiring this lookup are skipped. The default in `tox.ini` uses the [SANBI](https://www.sanbi.ac.za/) hosted NeoDB instance.

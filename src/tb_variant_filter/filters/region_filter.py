@@ -21,6 +21,7 @@ import argparse
 import sys
 from tb_variant_filter.masks import (
     FarhatLab_RLC_Regions,
+    FarhatLab_RLC_LowMap_Regions,
     MTBseqRegions,
     PE_PPE_Regions,
     TBProfilerRegions,
@@ -31,6 +32,7 @@ from . import Filter
 
 REGIONS = {
     "farhat_rlc": FarhatLab_RLC_Regions(),
+    "farhat_rlc_lowmap": FarhatLab_RLC_LowMap_Regions(),
     "mtbseq": MTBseqRegions(),
     "pe_ppe": PE_PPE_Regions(),
     "tbprofiler": TBProfilerRegions(),
