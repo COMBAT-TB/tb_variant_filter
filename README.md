@@ -75,6 +75,8 @@ optional arguments:
   --snv_only_filter     Mask out variants that are not SNVs
 ```
 
+*Note* that there are no filters by default. Each filter to be used needs to be explicitly mentioned.
+
 To export a region (from the list of possible region masks) in BED format, use the `tb_region_list_to_bed` command:
 
 
