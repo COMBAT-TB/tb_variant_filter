@@ -29,6 +29,7 @@ class MinDepthFilter(Filter):
             and args.min_depth_filter  # noqa W503
             and hasattr(args, "min_depth")  # noqa W503
         ):
+            self.active = True
             self.min_depth = args.min_depth
 
     @classmethod

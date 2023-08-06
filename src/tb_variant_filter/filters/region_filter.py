@@ -74,6 +74,7 @@ class RegionFilter(Filter):
         super().__init__(args, header)
         self.intervaltree = IntervalTree()
         if hasattr(args, "region_filter"):
+            self.active = True
             self.region_names = args.region_filter
             for name in args.region_filter:
                 regions = REGIONS[name].regions

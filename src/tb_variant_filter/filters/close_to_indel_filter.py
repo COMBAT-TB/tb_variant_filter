@@ -29,6 +29,7 @@ class CloseToIndelFilter(Filter):
         super().__init__(args, header)
         self.intervaltree = IntervalTree()
         if hasattr(args, "close_to_indel_filter") and args.close_to_indel_filter:
+            self.active = True
             # we need to re-open the input file because it was already read to get the header
             reader = Reader(open(args.input_file.name))
             dist = args.indel_window_size

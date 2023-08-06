@@ -27,7 +27,9 @@ def filter_vcf_file(args: argparse.ArgumentParser):
 
     variant_filters = []
     for filter_class in get_filters():
-        variant_filters.append(filter_class(args, header))
+        filter = filter_class(args, header)
+        if filter.active:
+            variant_filters.append(filter)
 
     variant_filter = UnionFilter(variant_filters)
     print(variant_filter, file=sys.stderr)

@@ -31,6 +31,7 @@ class AltPercentageDepthFilter(Filter):
             and args.min_percentage_alt_filter  # noqa W503
             and hasattr(args, "min_percentage_alt")  # noqa W503
         ):
+            self.active = True
             self.min_percentage = args.min_percentage_alt
 
     @classmethod

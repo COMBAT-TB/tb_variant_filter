@@ -25,6 +25,7 @@ from vcfpy import Record, Header
 
 class Filter(object):
     def __init__(self, args: argparse.Namespace, header: Header):
+        self.active = False
         self.header = header
 
     @abstractmethod

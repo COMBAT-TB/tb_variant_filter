@@ -25,6 +25,7 @@ class SnvOnly(Filter):
     def __init__(self, args: argparse.Namespace, header: vcfpy.Header) -> "SnvOnly":
         super().__init__(args, header)
         if hasattr(args, "snv_only_filter") and args.snv_only_filter:
+            self.active = True
             self.snv_only = True
 
     @classmethod
