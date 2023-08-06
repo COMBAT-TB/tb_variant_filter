@@ -62,13 +62,15 @@ class AltPercentageDepthFilter(Filter):
 
     def __call__(self, record: vcfpy.Record) -> Union[vcfpy.Record, None]:
         # VCF records have 1 (or 0?) or more ALT records supported by calls from 1 or more samples
-        # and AO INFO fields with dimension matching the ALT dimensions
+        # and (sometimes) AO INFO fields with dimension matching the ALT dimensions. Or AF1 or DP4
+        # or... there really is not standard way of representing ALT allele frequency in 
+        # VCF - see this discussion: https://github.com/samtools/hts-specs/issues/78
         # This Transform type Filter retains only those ALTs and corresponding INFO matching the
         # criteria of the filter
         # It does not modify the calls which might cause problems of calls not matching ALT
         retain = []
         alt_percentage = None
-        # bcftools call adds AF1 info, but only for first allele
+        # bcftools call adds AF1 INFO, but only for first allele
         if self.header.has_header_line("INFO", "AF1"):
             alt_percentage = record.INFO["AF1"] * 100
         elif self.header.has_header_line("INFO", "DP4"):
