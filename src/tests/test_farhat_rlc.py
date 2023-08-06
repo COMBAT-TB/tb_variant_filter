@@ -1,6 +1,8 @@
 from tb_variant_filter.masks.farhat_rlc import FarhatLab_RLC_Regions
 
 expected = 773
+
+
 def test_farhat_rlc_region_count():
     farhat_rlc = FarhatLab_RLC_Regions()
     assert (

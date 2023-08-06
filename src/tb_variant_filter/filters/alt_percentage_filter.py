@@ -24,7 +24,9 @@ from . import Filter
 class AltPercentageDepthFilter(Filter):
     min_percentage = 0
 
-    def __init__(self, args: argparse.Namespace, header: vcfpy.Header) -> "AltPercentageDepthFilter":
+    def __init__(
+        self, args: argparse.Namespace, header: vcfpy.Header
+    ) -> "AltPercentageDepthFilter":
         super().__init__(args, header)
         if (
             hasattr(args, "min_percentage_alt_filter")
@@ -71,34 +73,46 @@ class AltPercentageDepthFilter(Filter):
             alt_percentage = record.INFO["AF1"] * 100
         elif self.header.has_header_line("INFO", "DP4"):
             (fwd_ref, rev_ref, fwd_alt, rev_alt) = record.INFO["DP4"]
-            alt_percentage = (fwd_alt + rev_alt) / (fwd_ref + rev_ref + fwd_alt + rev_alt) * 100
+            alt_percentage = (
+                (fwd_alt + rev_alt) / (fwd_ref + rev_ref + fwd_alt + rev_alt) * 100
+            )
         if alt_percentage is not None:
             retain.append(not alt_percentage < self.min_percentage)
-        elif self.header.has_header_line("INFO", "AF") or (self.header.has_header_line("INFO", "AO") and self.header.has_header_line("INFO", "DP")):
+        elif self.header.has_header_line("INFO", "AF") or (
+            self.header.has_header_line("INFO", "AO")
+            and self.header.has_header_line("INFO", "DP")  # noqa: W503
+        ):
             for i, _ in enumerate(record.ALT):
                 if self.header.has_header_line("INFO", "AF"):
                     alt_percentage = record.INFO["AF"][i] * 100
-                elif self.header.has_header_line("INFO", "AO") and self.header.has_header_line("INFO", "DP"):
+                elif self.header.has_header_line(
+                    "INFO", "AO"
+                ) and self.header.has_header_line("INFO", "DP"):
                     alt_percentage = (
                         float(record.INFO["AO"][i]) / float(record.INFO["DP"]) * 100
                     )
                 retain.append(not alt_percentage < self.min_percentage)
         else:
             # we've got nothing to add to retain - leave it as an empty list
-            print("No alt allele depth information found in VCF, disabling alt allele percentage filter", file=sys.stderr)
+            print(
+                "No alt allele depth information found in VCF, disabling alt allele percentage filter",
+                file=sys.stderr,
+            )
         if not any(retain):
             return None
-        
+
         new_ALT = [alt for i, alt in enumerate(record.ALT) if retain[i]]
         new_INFO = OrderedDict()
         # these are produced by snpEff and keys occur once per implicated gene
         # the simplest solution is to copy them all across
         for key in record.INFO:
-            if self.header.get_info_field_info(key).number == 'A':
+            if self.header.get_info_field_info(key).number == "A":
                 # 'A' fields have one entry for each alternative allele - copy only those for retained alleles
                 field_len = len(record.INFO[key])
                 retain_len = len(retain)
-                assert field_len == retain_len, f"Length of array-type INFO field ({field_len}) does not match length of retain ({retain_len})"
+                assert (
+                    field_len == retain_len
+                ), f"Length of array-type INFO field ({field_len}) does not match length of retain ({retain_len})"
                 new_INFO[key] = [
                     # retain all ANN records and the only those other records that correspond to alts that we retain
                     el

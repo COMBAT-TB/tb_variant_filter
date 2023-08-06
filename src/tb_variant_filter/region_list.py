@@ -88,14 +88,21 @@ class RegionList(ABC):
 
     @staticmethod
     def _find_locus_by_name(tx, name):
-        result = tx.run("MATCH (locus) -[:LOCATED_AT]-> (location:Location) "
-                        "WHERE ((locus:Gene or locus:PseudoGene) and locus.uniquename = $name) "
-                        " or (locus:RRna and locus.name = $name) RETURN locus, location", name=name)
+        result = tx.run(
+            "MATCH (locus) -[:LOCATED_AT]-> (location:Location) "
+            "WHERE ((locus:Gene or locus:PseudoGene) and locus.uniquename = $name) "
+            " or (locus:RRna and locus.name = $name) RETURN locus, location",
+            name=name,
+        )
         return result.single()
 
     @classmethod
     def locus_list_to_locations(
-        cls, graph: Driver, locus_df: pd.DataFrame, column_name: str, rrna_column_name: str = None
+        cls,
+        graph: Driver,
+        locus_df: pd.DataFrame,
+        column_name: str,
+        rrna_column_name: str = None,
     ):
         """locus_list_to_locations - lookup H37Rv coordinates of a list of gene/pseudogene/rrnas
         graph - neo4j Driver object (from GraphDatabase.driver())
@@ -103,11 +110,10 @@ class RegionList(ABC):
         column_name - name of column in locus_df to use for locus name
         """
         with graph.session() as session:
-
             locations = []
             for _, row in locus_df.iterrows():
                 locus = row[column_name]
-                if not locus.startswith('Rv') and rrna_column_name is not None:
+                if not locus.startswith("Rv") and rrna_column_name is not None:
                     locus = row[rrna_column_name]
                 result = session.execute_read(RegionList._find_locus_by_name, locus)
                 if result is not None:
@@ -120,7 +126,11 @@ class RegionList(ABC):
                         )
                     )
                 else:
-                    print("Failed to look up coordinates for", locus, file=sys.stderr)
+                    print(
+                        "Failed to look up coordinates for",
+                        locus,
+                        file=sys.stderr,
+                    )
             return locations
 
     def to_dict(self):
@@ -132,7 +142,7 @@ class RegionList(ABC):
                 (k, getattr(self, k))
                 for k in self.__class__.__dict__.keys()
                 if not k.startswith("_")
-                and not isinstance(getattr(self, k), types.FunctionType)
+                and not isinstance(getattr(self, k), types.FunctionType)  # noqa: W503
             ]
         )
         self_to_dict["regions"] = [loc.to_dict() for loc in self.regions]

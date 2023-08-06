@@ -4,6 +4,8 @@ from tb_variant_filter import Location
 from .utils import skip_if_no_bolt, get_bolt_url
 
 expected = 220
+
+
 def test_uvp_region_count():
     uvp = UVPRegions()
     assert (

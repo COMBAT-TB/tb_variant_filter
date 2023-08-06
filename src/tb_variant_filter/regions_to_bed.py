@@ -26,10 +26,14 @@ def main():
     region_list_names = REGIONS.keys()
     parser = argparse.ArgumentParser(description="Output region filter in BED format")
     parser.add_argument(
-        "--chromosome_name", help="Chromosome name to use in BED", default="NC_000962.3"
+        "--chromosome_name",
+        help="Chromosome name to use in BED",
+        default="NC_000962.3",
     )
     parser.add_argument(
-        "region_list_name", help="Name of region list", choices=region_list_names
+        "region_list_name",
+        help="Name of region list",
+        choices=region_list_names,
     )
     parser.add_argument(
         "output_file",

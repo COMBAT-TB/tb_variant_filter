@@ -25,7 +25,9 @@ class CloseToIndelFilter(Filter):
     intervaltree = None
     dist = 0
 
-    def __init__(self, args: argparse.Namespace, header: Header) -> "CloseToIndelFilter":
+    def __init__(
+        self, args: argparse.Namespace, header: Header
+    ) -> "CloseToIndelFilter":
         super().__init__(args, header)
         self.intervaltree = IntervalTree()
         if hasattr(args, "close_to_indel_filter") and args.close_to_indel_filter:
@@ -50,7 +52,6 @@ class CloseToIndelFilter(Filter):
             args.input_file.seek(0)
 
     def __repr__(self) -> str:
-
         name = f"{self.__class__.__name__}"
         if self.dist:
             name += f" (Window {self.dist})"

@@ -1,6 +1,10 @@
-from tb_variant_filter.masks.farhat_rlc_lowmap import FarhatLab_RLC_LowMap_Regions
+from tb_variant_filter.masks.farhat_rlc_lowmap import (
+    FarhatLab_RLC_LowMap_Regions,
+)
 
 expected = 1324
+
+
 def test_farhat_rlc_region_count():
     farhat_rlc_lowmap = FarhatLab_RLC_LowMap_Regions
     assert (
