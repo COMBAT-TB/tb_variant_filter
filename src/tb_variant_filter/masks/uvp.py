@@ -263,7 +263,8 @@ class UVPRegions(RegionList):
             self.regions = RegionList.locus_list_to_locations(
                 graph, uvp_df_loci_df, "locus tag"
             )
-
+            graph.close()
+ 
             # add the intergenic regions
             for i, row in uvp_df[uvp_df["Comment"].isna()].iterrows():
                 self.regions.append(

@@ -105,11 +105,11 @@ class RegionList(ABC):
         with graph.session() as session:
 
             locations = []
-            for i, row in locus_df.iterrows():
+            for _, row in locus_df.iterrows():
                 locus = row[column_name]
                 if not locus.startswith('Rv') and rrna_column_name is not None:
                     locus = row[rrna_column_name]
-                result = session.read_transaction(RegionList._find_locus_by_name, locus)
+                result = session.execute_read(RegionList._find_locus_by_name, locus)
                 if result is not None:
                     locations.append(
                         Location(

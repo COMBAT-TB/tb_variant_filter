@@ -20,13 +20,12 @@ from abc import abstractmethod
 import argparse
 from typing import List, Union, Type
 
-from vcfpy import Record
+from vcfpy import Record, Header
 
 
 class Filter(object):
-    @abstractmethod
-    def __init__(self, args: argparse.Namespace):
-        pass
+    def __init__(self, args: argparse.Namespace, header: Header):
+        self.header = header
 
     @abstractmethod
     def __repr__(self) -> str:
@@ -59,6 +58,10 @@ class UnionFilter(Filter):
             record = filter(record)
             if not record:
                 # don't continue the chain
+                # info = str(orig_record.INFO["DP"])
+                # info += " AO: " + str(orig_record.INFO["AO"]) if "AO" in orig_record.INFO else ""
+                # info += " AF: " + str(orig_record.INFO["AF"]) if "AF" in orig_record.INFO else ""
+                # print("REMOVING", info)
                 return None
         return record  # return the record, perhaps after some transformation
 

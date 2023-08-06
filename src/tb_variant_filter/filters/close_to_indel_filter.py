@@ -15,7 +15,7 @@
 import argparse
 from typing import Union
 
-from vcfpy import Record, Reader
+from vcfpy import Record, Reader, Header
 from intervaltree import IntervalTree
 
 from . import Filter
@@ -25,11 +25,12 @@ class CloseToIndelFilter(Filter):
     intervaltree = None
     dist = 0
 
-    def __init__(self, args: argparse.Namespace) -> "CloseToIndelFilter":
-        super().__init__(args)
+    def __init__(self, args: argparse.Namespace, header: Header) -> "CloseToIndelFilter":
+        super().__init__(args, header)
         self.intervaltree = IntervalTree()
         if hasattr(args, "close_to_indel_filter") and args.close_to_indel_filter:
-            reader = Reader(args.input_file)
+            # we need to re-open the input file because it was already read to get the header
+            reader = Reader(open(args.input_file.name))
             dist = args.indel_window_size
             self.dist = dist
             for record in reader:

@@ -22,8 +22,8 @@ from . import Filter
 class MinDepthFilter(Filter):
     min_depth = 0
 
-    def __init__(self, args: argparse.Namespace) -> "MinDepthFilter":
-        super().__init__(args)
+    def __init__(self, args: argparse.Namespace, header: vcfpy.Header) -> "MinDepthFilter":
+        super().__init__(args, header)
         if (
             hasattr(args, "min_depth_filter")
             and args.min_depth_filter  # noqa W503

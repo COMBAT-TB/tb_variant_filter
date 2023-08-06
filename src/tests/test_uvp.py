@@ -3,10 +3,9 @@ from tb_variant_filter import Location
 
 from .utils import skip_if_no_bolt, get_bolt_url
 
-
+expected = 220
 def test_uvp_region_count():
     uvp = UVPRegions()
-    expected = 220
     assert (
         len(uvp.regions) == expected
     ), f"expected {expected} regions, got {len(uvp.regions)}"
@@ -25,5 +24,4 @@ def test_web_uvp_region_count():
     uvp = UVPRegions()
     bolt_url = get_bolt_url()
     uvp.load_from_web_and_db(bolt_url)
-    expected = 220
     assert len(uvp.regions) == expected, f"expected {expected} regions"

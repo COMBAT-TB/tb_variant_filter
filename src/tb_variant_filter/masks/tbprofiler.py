@@ -97,3 +97,4 @@ class TBProfilerRegions(RegionList):
             )
             graph = GraphDatabase.driver(uri=bolt_url)
             self.regions = RegionList.locus_list_to_locations(graph, data, "locus", "name")
+            graph.close()

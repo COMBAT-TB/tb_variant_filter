@@ -208,3 +208,4 @@ class PE_PPE_Regions(RegionList):
             self.regions = RegionList.locus_list_to_locations(
                 graph, pe_ppe_data, "Rv number"
             )
+            graph.close()

@@ -15,7 +15,7 @@
 from typing import List, Union
 
 from intervaltree import Interval, IntervalTree
-from vcfpy import Record
+from vcfpy import Record, Header
 
 import argparse
 import sys
@@ -70,8 +70,8 @@ class RegionFilter(Filter):
     def customize_parser(cls, parser: argparse.ArgumentParser):
         parser.add_argument("--region_filter", "-R", action=RegionArgParser, default=[])
 
-    def __init__(self, args: argparse.Namespace) -> "RegionFilter":
-        super().__init__(args)
+    def __init__(self, args: argparse.Namespace, header: Header) -> "RegionFilter":
+        super().__init__(args, header)
         self.intervaltree = IntervalTree()
         if hasattr(args, "region_filter"):
             self.region_names = args.region_filter

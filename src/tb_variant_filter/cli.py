@@ -22,14 +22,17 @@ from .filters import get_filters, UnionFilter
 
 def filter_vcf_file(args: argparse.ArgumentParser):
     """filter_vcf_file: taking parameters from args, apply filters to VCF file, generating filtered VCF file"""
+    reader = vcfpy.Reader(args.input_file)
+    header = reader.header
+
     variant_filters = []
     for filter_class in get_filters():
-        variant_filters.append(filter_class(args))
+        variant_filters.append(filter_class(args, header))
 
     variant_filter = UnionFilter(variant_filters)
     print(variant_filter, file=sys.stderr)
 
-    reader = vcfpy.Reader(args.input_file)
+    reader = vcfpy.Reader(open(args.input_file.name))
     writer = vcfpy.Writer(args.output_file, header=reader.header)
     masked_records = 0
     for record in reader:

@@ -14,6 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import argparse
 from collections import OrderedDict
+import sys
 from typing import Union
 import vcfpy
 
@@ -23,8 +24,8 @@ from . import Filter
 class AltPercentageDepthFilter(Filter):
     min_percentage = 0
 
-    def __init__(self, args: argparse.Namespace) -> "AltPercentageDepthFilter":
-        super().__init__(args)
+    def __init__(self, args: argparse.Namespace, header: vcfpy.Header) -> "AltPercentageDepthFilter":
+        super().__init__(args, header)
         if (
             hasattr(args, "min_percentage_alt_filter")
             and args.min_percentage_alt_filter  # noqa W503
@@ -57,33 +58,51 @@ class AltPercentageDepthFilter(Filter):
         return name
 
     def __call__(self, record: vcfpy.Record) -> Union[vcfpy.Record, None]:
-        if not ("AO" in record.INFO and "DP" in record.INFO):
-            return None
         # VCF records have 1 (or 0?) or more ALT records supported by calls from 1 or more samples
         # and AO INFO fields with dimension matching the ALT dimensions
         # This Transform type Filter retains only those ALTs and corresponding INFO matching the
         # criteria of the filter
         # It does not modify the calls which might cause problems of calls not matching ALT
         retain = []
-        for i, alt in enumerate(record.ALT):
-            alt_percentage = (
-                float(record.INFO["AO"][i]) / float(record.INFO["DP"]) * 100.0
-            )
+        alt_percentage = None
+        # bcftools call adds AF1 info, but only for first allele
+        if self.header.has_header_line("INFO", "AF1"):
+            alt_percentage = record.INFO["AF1"] * 100
+        elif self.header.has_header_line("INFO", "DP4"):
+            (fwd_ref, rev_ref, fwd_alt, rev_alt) = record.INFO["DP4"]
+            alt_percentage = (fwd_alt + rev_alt) / (fwd_ref + rev_ref + fwd_alt + rev_alt) * 100
+        if alt_percentage is not None:
             retain.append(not alt_percentage < self.min_percentage)
+        elif self.header.has_header_line("INFO", "AF") or (self.header.has_header_line("INFO", "AO") and self.header.has_header_line("INFO", "DP")):
+            for i, _ in enumerate(record.ALT):
+                if self.header.has_header_line("INFO", "AF"):
+                    alt_percentage = record.INFO["AF"][i] * 100
+                elif self.header.has_header_line("INFO", "AO") and self.header.has_header_line("INFO", "DP"):
+                    alt_percentage = (
+                        float(record.INFO["AO"][i]) / float(record.INFO["DP"]) * 100
+                    )
+                retain.append(not alt_percentage < self.min_percentage)
+        else:
+            # we've got nothing to add to retain - leave it as an empty list
+            print("No alt allele depth information found in VCF, disabling alt allele percentage filter", file=sys.stderr)
         if not any(retain):
             return None
+        
         new_ALT = [alt for i, alt in enumerate(record.ALT) if retain[i]]
         new_INFO = OrderedDict()
         # these are produced by snpEff and keys occur once per implicated gene
         # the simplest solution is to copy them all across
-        snpeff_keys = set(["ANN", "LOF", "NMD"])
         for key in record.INFO:
-            if type(record.INFO[key]) == list:
+            if self.header.get_info_field_info(key).number == 'A':
+                # 'A' fields have one entry for each alternative allele - copy only those for retained alleles
+                field_len = len(record.INFO[key])
+                retain_len = len(retain)
+                assert field_len == retain_len, f"Length of array-type INFO field ({field_len}) does not match length of retain ({retain_len})"
                 new_INFO[key] = [
                     # retain all ANN records and the only those other records that correspond to alts that we retain
                     el
                     for i, el in enumerate(record.INFO[key])
-                    if key in snpeff_keys or retain[i]
+                    if retain[i]
                 ]
             else:
                 new_INFO[key] = record.INFO[key]
