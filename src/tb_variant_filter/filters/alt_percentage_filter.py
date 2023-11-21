@@ -63,7 +63,7 @@ class AltPercentageDepthFilter(Filter):
     def __call__(self, record: vcfpy.Record) -> Union[vcfpy.Record, None]:
         # VCF records have 1 (or 0?) or more ALT records supported by calls from 1 or more samples
         # and (sometimes) AO INFO fields with dimension matching the ALT dimensions. Or AF1 or DP4
-        # or... there really is not standard way of representing ALT allele frequency in 
+        # or... there really is not standard way of representing ALT allele frequency in
         # VCF - see this discussion: https://github.com/samtools/hts-specs/issues/78
         # This Transform type Filter retains only those ALTs and corresponding INFO matching the
         # criteria of the filter

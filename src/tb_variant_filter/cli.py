@@ -17,6 +17,7 @@ import sys
 
 import vcfpy
 
+from . import __version__
 from .filters import get_filters, UnionFilter
 
 
@@ -51,6 +52,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Filter variants from a VCF file (relative to M. tuberculosis H37Rv)"
     )
+    parser.add_argument('--version', action='version', version=__version__, help="Print version and exit")
     parser.add_argument(
         "input_file",
         type=argparse.FileType(),

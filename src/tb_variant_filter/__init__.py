@@ -12,6 +12,10 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+__version_info__ = ('0', '4', '1')
+__version__ = '.'.join(__version_info__)
+
 from dataclasses import dataclass
 from functools import wraps
 
