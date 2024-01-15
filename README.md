@@ -7,11 +7,12 @@ This tool offers multiple options for filtering variants (in VCF files, relative
 It currently has 5 main modes:
 
 1. Filter by region. Mask out variants in certain regions. Region lists available as:
-    1. `farhat_rlc` and `farhat_rlc_lowmap`:  Refined Low Confidence (RLC) and RLC plus low mappability regions from [Marin et al](https://doi.org/10.1093/bioinformatics/btac023)
-    1. `pe_ppe`: PE/PPE genes from [Fishbein et al 2015](https://onlinelibrary.wiley.com/doi/full/10.1111/mmi.12981)
-    2. `tbprofiler`: [TBProfiler](http://tbdr.lshtm.ac.uk/) list of antibiotic resistant genes
-    3. `mtbseq`: [MTBseq](https://github.com/ngs-fzb/MTBseq_source) list of antibiotic resistant genes
-    4. `uvp`: [UVP](https://github.com/CPTR-ReSeqTB/UVP) list of repetitive loci in M. tuberculosis genome
+    1. `modlin_ibs` :  Illumina Blind Spots (IBS) from [Modlin et al 2021](https://www.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000465)
+    2. `farhat_rlc` and `farhat_rlc_lowmap`:  Refined Low Confidence (RLC) and RLC plus low mappability regions from [Marin et al](https://doi.org/10.1093/bioinformatics/btac023)
+    3. `pe_ppe`: PE/PPE genes from [Fishbein et al 2015](https://onlinelibrary.wiley.com/doi/full/10.1111/mmi.12981)
+    4. `tbprofiler`: [TBProfiler](http://tbdr.lshtm.ac.uk/) list of antibiotic resistant genes
+    5. `mtbseq`: [MTBseq](https://github.com/ngs-fzb/MTBseq_source) list of antibiotic resistant genes
+    6. `uvp`: [UVP](https://github.com/CPTR-ReSeqTB/UVP) list of repetitive loci in M. tuberculosis genome
 2. Filter by proximity to indels. Masks out variants within a certain distance (by default 5 bases) of an insertion or
  deletion site.
 3. Filter by percentage of alternate allele bases. Mask out variants with less than a minimum percentage 

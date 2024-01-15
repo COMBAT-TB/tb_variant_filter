@@ -20,6 +20,7 @@ from vcfpy import Record, Header
 import argparse
 import sys
 from tb_variant_filter.masks import (
+    Modlin_IlluminaBlindspot_Regions,
     FarhatLab_RLC_Regions,
     FarhatLab_RLC_LowMap_Regions,
     MTBseqRegions,
@@ -31,6 +32,7 @@ from tb_variant_filter.masks import (
 from . import Filter
 
 REGIONS = {
+    "modlin_ibs": Modlin_IlluminaBlindspot_Regions(),
     "farhat_rlc": FarhatLab_RLC_Regions(),
     "farhat_rlc_lowmap": FarhatLab_RLC_LowMap_Regions(),
     "mtbseq": MTBseqRegions(),
